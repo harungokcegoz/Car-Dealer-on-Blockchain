@@ -37,7 +37,13 @@ contract CarRegistry {
         owners[msg.sender] = true;
     }
 
-    function registerCar(string memory _licensePlate, string memory _chassisNumber, string memory _brand, string memory _carType, string memory _color) external {
+    function registerCar(
+        string memory _licensePlate,
+        string memory _chassisNumber,
+        string memory _brand,
+        string memory _carType,
+        string memory _color
+        ) external {
         cars[carCount] = Car({
             licensePlate: _licensePlate,
             chassisNumber: _chassisNumber,
@@ -74,7 +80,6 @@ contract CarRegistry {
 
         address payable oldOwner = payable(cars[_carId].owner);
         oldOwner.transfer(msg.value);
-        
         cars[_carId].owner = msg.sender;
         cars[_carId].forSale = false;
 
