@@ -1,11 +1,6 @@
 module.exports = {
   networks: {
-    development: {
-      network_id: "*",
-      port: 7545,
-      host: "127.0.0.1"
-    },
-    loc_development_development: {
+    ganache: {
       network_id: "*",
       port: 7545,
       host: "127.0.0.1"
@@ -14,7 +9,7 @@ module.exports = {
   mocha: {},
   compilers: {
     solc: {
-      version: "0.8.21"
+      version: "0.8.19"
     }
   }
 };
