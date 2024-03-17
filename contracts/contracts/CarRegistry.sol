@@ -33,17 +33,17 @@ contract CarRegistry {
         _;
     }
 
-    constructor() {
+    constructor() public {
         owners[msg.sender] = true;
     }
 
     function registerCar(
-        string memory _licensePlate,
-        string memory _chassisNumber,
-        string memory _brand,
-        string memory _carType,
-        string memory _color
-        ) external {
+        string calldata _licensePlate,
+        string calldata _chassisNumber,
+        string calldata _brand,
+        string calldata _carType,
+        string calldata _color
+    ) external {
         cars[carCount] = Car({
             licensePlate: _licensePlate,
             chassisNumber: _chassisNumber,
@@ -59,6 +59,7 @@ contract CarRegistry {
         emit CarRegistered(carCount, msg.sender);
         carCount++;
     }
+
 
     function updateMileage(uint256 _carId, uint256 _mileage) external onlyCarOwner(_carId) {
         require(_mileage > cars[_carId].mileage, "New mileage must be greater than current mileage");
@@ -78,13 +79,15 @@ contract CarRegistry {
         require(cars[_carId].forSale, "Car is not listed for sale");
         require(msg.value >= cars[_carId].askingPrice, "Insufficient payment");
 
-        address payable oldOwner = payable(cars[_carId].owner);
+        address payable oldOwner = address(uint160(cars[_carId].owner));
         oldOwner.transfer(msg.value);
+
         cars[_carId].owner = msg.sender;
         cars[_carId].forSale = false;
 
         emit CarSold(_carId, oldOwner, msg.sender, msg.value);
     }
+
 
     function getCar(uint256 _carId) external view returns (
         string memory licensePlate,
