@@ -69,10 +69,6 @@ const updateCarListings = (carId: number) => {
 
             console.log('Newly registered car details:', carDetails);
 
-            // Example: Update the UI with the new car information (replace with your UI update logic)
-            // For example, you can add the car details to a list of registered cars, display them in a table, etc.
-            // Update the UI state or trigger a re-render to reflect the changes
-            // For React, you can use state management libraries like Redux or React hooks
         }
     });
 };
