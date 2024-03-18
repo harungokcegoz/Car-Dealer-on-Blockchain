@@ -42,7 +42,9 @@ contract CarRegistry {
         string calldata _chassisNumber,
         string calldata _brand,
         string calldata _carType,
-        string calldata _color
+        string calldata _color,
+        uint256 _mileage,
+        uint256 _askingPrice
     ) external {
         cars[carCount] = Car({
             licensePlate: _licensePlate,
@@ -50,10 +52,10 @@ contract CarRegistry {
             brand: _brand,
             carType: _carType,
             color: _color,
-            mileage: 0,
+            mileage: _mileage,
             owner: msg.sender,
-            askingPrice: 0,
-            forSale: false
+            askingPrice: _askingPrice,
+            forSale: true
         });
 
         emit CarRegistered(carCount, msg.sender);

@@ -7,38 +7,46 @@ let contract: any;
 // Function to initialize Web3 and contract instance
 export const initWeb3 = async () => {
     // Check if Web3 has been injected by the browser (MetaMask)
-    if (typeof window !== 'undefined' && typeof window.ethereum !== 'undefined') {
-        // Use MetaMask provider
-        web3 = new Web3(window.ethereum);
+    if (typeof window !== 'undefined' && typeof (window as any).ethereum !== 'undefined') {
+
+        web3 = new Web3((window as any).ethereum);
         try {
-            // Request account access
-            await window.ethereum.enable();
+            await (window as any).ethereum.enable();
         } catch (error) {
             console.error("User denied account access", error);
         }
     } else {
-        // Fallback to local provider
-        web3 = new Web3(new Web3.providers.HttpProvider('http://127.0.0.1:7545')); // Update with your local provider address
+        web3 = new Web3(new Web3.providers.HttpProvider('http://127.0.0.1:7545')); 
     }
 
-    // Get the network ID
-    const networkId: string = await web3.eth.net.getId();
-
-    // Get the contract ABI and address
+    const networkId: string = (await web3.eth.net.getId()).toString();
     const contractABI = ContractForTrading.abi;
-    const contractAddress = ContractForTrading.networks.development;
+    const contractAddress = ContractForTrading.networks['5777'].address;
 
-    // Instantiate the contract
     contract = new web3.eth.Contract(contractABI, contractAddress);
+
+    contract.events.allEvents((error: any, event: any) => {
+        if (error) {
+            console.error('Error with event subscription:', error);
+        } else {
+            console.log('Received event:', event);
+            switch (event.event) {
+                case 'CarRegistered':
+                    updateCarListings(event.returnValues.carId);
+                    break;
+                default:
+                    console.warn('Unrecognized event type:', event.event);
+                    break;
+            }
+        }
+    });
 }
 
-// Function to get the current account address
 export const getCurrentAccount = async () => {
     const accounts = await web3.eth.getAccounts();
-    return accounts[0]; // Assuming first account is used
+    return accounts[0];
 }
 
-// Function to call a method on the contract
 export const callContractMethod = async (methodName: string, ...args: any[]) => {
     try {
         const account = await getCurrentAccount();
@@ -52,5 +60,22 @@ export const callContractMethod = async (methodName: string, ...args: any[]) => 
     }
 }
 
-// Export the contract instance for external use
+const updateCarListings = (carId: number) => {
+    contract.methods.getCar(carId).call((error: any, carDetails: any) => {
+        if (error) {
+            console.error('Error fetching car details:', error);
+        } else {
+            const { licensePlate, chassisNumber, brand, carType, color, mileage, owner, askingPrice, forSale } = carDetails;
+
+            console.log('Newly registered car details:', carDetails);
+
+            // Example: Update the UI with the new car information (replace with your UI update logic)
+            // For example, you can add the car details to a list of registered cars, display them in a table, etc.
+            // Update the UI state or trigger a re-render to reflect the changes
+            // For React, you can use state management libraries like Redux or React hooks
+        }
+    });
+};
+
+
 export default contract;
