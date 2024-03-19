@@ -1,4 +1,4 @@
-import CarCardsGallery from '@/components/CarCardsGallery';
+import CarCardsGallery from '@/components/cards/CarCardsGallery';
 
 const cars = [
     { brand: 'Toyota', year: 2020, color: 'Red', askingPrice: 25000, imageUrl: 'https://images.drive.com.au/driveau/image/upload/t_wp-default/v1/cms/uploads/itd0Lt3LTE6nvZcJgVNL' },

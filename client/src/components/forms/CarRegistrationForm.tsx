@@ -1,10 +1,9 @@
-"use client"
-
-import { useEffect, useState } from 'react';
-import { initWeb3, callContractMethod, getCurrentAccount } from '../utils/CarContract';
+"use client";
+import { useState } from 'react';
+import useCarRegistration from '@/hooks/useCarRegistration';
+import Button from '../atoms/Button';
 
 const CarRegistrationForm = () => {
-    const [initialized, setInitialized] = useState(false);
     const [formData, setFormData] = useState({
         licensePlate: '',
         chassisNumber: '',
@@ -13,17 +12,8 @@ const CarRegistrationForm = () => {
         color: '',
         mileage: '',
         askingPrice: '',
-        image: ''
+        imageUrl: ''
     });
-
-    useEffect(() => {
-        const initializeWeb3 = async () => {
-            await initWeb3();
-            setInitialized(true);
-        }
-        initializeWeb3();
-        console.log(getCurrentAccount());
-    }, []);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -33,27 +23,11 @@ const CarRegistrationForm = () => {
         }));
     }
 
+    const useCarRegistrationHook = useCarRegistration();
     const handleSubmit = async () => {
-        try {
-            const mileage = parseInt(formData.mileage);
-            const askingPrice = parseInt(formData.askingPrice);
-    
-            if (isNaN(mileage) || isNaN(askingPrice)) {
-                throw new Error("Mileage and asking price must be valid integers.");
-            }
-    
-            await callContractMethod(
-                'registerCar',
-                formData.licensePlate,
-                formData.chassisNumber,
-                formData.brand,
-                formData.carType,
-                formData.color,
-                mileage,
-                askingPrice,
-                formData.image
-            );
-            alert("Car registered successfully!");
+        console.log("clicked")
+        const success = await useCarRegistrationHook.registerCar(formData);
+        if (success) {
             setFormData({
                 licensePlate: '',
                 chassisNumber: '',
@@ -62,16 +36,14 @@ const CarRegistrationForm = () => {
                 color: '',
                 mileage: '',
                 askingPrice: '',
-                image: ''
+                imageUrl: ''
             });
-        } catch (error) {
-            console.error("Error registering car:", error);
         }
     }
     
     return (
         <div className="container mx-auto py-20">
-            {initialized && (
+            {useCarRegistrationHook.initialized && (
                 <div className="w-full max-w-md mx-auto">
                     <h2 className="text-2xl font-bold mb-4">Car Registration</h2>
                     <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
@@ -153,21 +125,17 @@ const CarRegistrationForm = () => {
                         </div>
                         {/* Asking Price */}
                         <div className="mb-4">
-                            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="askingPrice">Car Image</label>
+                            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="askingPrice">Car Image Link</label>
                             <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
-                                id="Image" 
+                                id="image" 
                                 type="link" 
-                                name="image" 
-                                value={formData.image} 
+                                name="imageUrl" 
+                                value={formData.imageUrl} 
                                 onChange={handleChange} 
                                 placeholder="Car Image Link" />
                         </div>
-                        <div className="flex items-center justify-between">
-                            <button className="bg-orange-700 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" 
-                                type="submit" 
-                                onClick={handleSubmit}>
-                                Register Car
-                            </button>
+                        <div className="flex items-center justify-between mt-10">
+                            <Button type="submit" text="Register Car" onClick={handleSubmit} />
                         </div>
                     </div>
                 </div>

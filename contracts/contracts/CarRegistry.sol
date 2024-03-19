@@ -8,6 +8,7 @@ contract CarRegistry {
         string brand;
         string carType;
         string color;
+        string imageUrl;
         uint256 mileage;
         address owner;
         uint256 askingPrice;
@@ -43,6 +44,7 @@ contract CarRegistry {
         string calldata _brand,
         string calldata _carType,
         string calldata _color,
+        string calldata _imageUrl,
         uint256 _mileage,
         uint256 _askingPrice
     ) external {
@@ -52,6 +54,7 @@ contract CarRegistry {
             brand: _brand,
             carType: _carType,
             color: _color,
+            imageUrl: _imageUrl,
             mileage: _mileage,
             owner: msg.sender,
             askingPrice: _askingPrice,
@@ -97,6 +100,7 @@ contract CarRegistry {
         string memory brand,
         string memory carType,
         string memory color,
+        string memory imageUrl,
         uint256 mileage,
         address owner,
         uint256 askingPrice,
@@ -109,6 +113,7 @@ contract CarRegistry {
             car.brand,
             car.carType,
             car.color,
+            car.imageUrl,
             car.mileage,
             car.owner,
             car.askingPrice,

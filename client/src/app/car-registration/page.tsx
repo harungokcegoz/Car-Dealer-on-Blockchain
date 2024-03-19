@@ -1,4 +1,4 @@
-import CarRegistrationForm from "@/components/CarRegistrationForm";
+import CarRegistrationForm from "@/components/forms/CarRegistrationForm";
 
 const CarRegistrationPage = () => {
     return (
