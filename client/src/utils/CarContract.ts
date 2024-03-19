@@ -40,6 +40,15 @@ export const initWeb3 = async () => {
             }
         }
     });
+
+    contract.getPastEvents('CarRegistered', { fromBlock: 0, toBlock: 'latest' }, (error: any, events: any) => {
+        if (error) {
+            console.error('Error fetching past CarRegistered events:', error);
+        } else {
+            console.log('Past CarRegistered events:', events);
+        }
+    });
+    
 }
 
 export const getCurrentAccount = async () => {
