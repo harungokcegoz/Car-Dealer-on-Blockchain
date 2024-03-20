@@ -138,4 +138,16 @@ contract CarRegistry {
         return carArray;
     }
 
+    function getCarsOwnedByAddress(address _owner) external view returns (Car[] memory) {
+        Car[] memory ownedCars = new Car[](carCount);
+
+        for (uint i = 0; i < carCount; i++) {
+            if (cars[i].owner == _owner) {
+                ownedCars[i] = cars[i];
+            }
+        }
+
+        return ownedCars;
+    }
+
 }
