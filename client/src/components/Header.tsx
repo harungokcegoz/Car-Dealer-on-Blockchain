@@ -4,7 +4,7 @@ const Header = () => {
     return (
         <header className="bg-orange-400 text-white p-5">
             <div className="container mx-auto flex justify-between items-center">
-                <h1 className="text-4xl font-bold">Car Dealership</h1>
+                <a href="/"><h1 className="text-4xl font-bold">HG Cars</h1></a>
                 <nav>
                     <ul className="flex space-x-4 text-xl">
                         <li className="hover:text-gray-200">

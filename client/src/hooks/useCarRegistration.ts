@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react';
-import { initWeb3, callContractMethod, getCurrentAccount } from '../utils/CarContract';
+import { initWeb3, callContractMethod } from '../utils/CarContract';
 
 type FormData = {
     licensePlate: string;
     chassisNumber: string;
     brand: string;
-    carType: string;
     color: string;
     mileage: string;
     askingPrice: string;
@@ -21,7 +20,6 @@ const useCarRegistration = () => {
             setInitialized(true);
         }
         initializeWeb3();
-        console.log(getCurrentAccount());
     }, []);
 
     const registerCar = async (formData: FormData) => {
@@ -38,12 +36,12 @@ const useCarRegistration = () => {
                 formData.licensePlate,
                 formData.chassisNumber,
                 formData.brand,
-                formData.carType,
+                formData.imageUrl,
                 formData.color,
                 mileage,
-                askingPrice,
-                formData.imageUrl
+                askingPrice
             );
+
             alert("Car registered successfully!");
             return true;
         } catch (error) {

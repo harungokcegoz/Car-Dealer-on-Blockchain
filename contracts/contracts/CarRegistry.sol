@@ -6,9 +6,8 @@ contract CarRegistry {
         string licensePlate;
         string chassisNumber;
         string brand;
-        string carType;
-        string color;
         string imageUrl;
+        string color;
         uint256 mileage;
         address owner;
         uint256 askingPrice;
@@ -42,9 +41,8 @@ contract CarRegistry {
         string calldata _licensePlate,
         string calldata _chassisNumber,
         string calldata _brand,
-        string calldata _carType,
-        string calldata _color,
         string calldata _imageUrl,
+        string calldata _color,
         uint256 _mileage,
         uint256 _askingPrice
     ) external {
@@ -52,9 +50,8 @@ contract CarRegistry {
             licensePlate: _licensePlate,
             chassisNumber: _chassisNumber,
             brand: _brand,
-            carType: _carType,
-            color: _color,
             imageUrl: _imageUrl,
+            color: _color,
             mileage: _mileage,
             owner: msg.sender,
             askingPrice: _askingPrice,
@@ -80,27 +77,26 @@ contract CarRegistry {
         emit CarListedForSale(_carId, _askingPrice);
     }
 
-    function buyCar(uint256 _carId) external payable {
-        require(cars[_carId].forSale, "Car is not listed for sale");
-        require(msg.value >= cars[_carId].askingPrice, "Insufficient payment");
+    // function buyCar(uint256 _carId) external payable {
+    //     require(cars[_carId].forSale, "Car is not listed for sale");
+    //     require(msg.value >= cars[_carId].askingPrice, "Insufficient payment");
 
-        address payable oldOwner = address(uint160(cars[_carId].owner));
-        oldOwner.transfer(msg.value);
+    //     address payable oldOwner = address(uint160(cars[_carId].owner));
+    //     oldOwner.transfer(msg.value);
 
-        cars[_carId].owner = msg.sender;
-        cars[_carId].forSale = false;
+    //     cars[_carId].owner = msg.sender;
+    //     cars[_carId].forSale = false;
 
-        emit CarSold(_carId, oldOwner, msg.sender, msg.value);
-    }
+    //     emit CarSold(_carId, oldOwner, msg.sender, msg.value);
+    // }
 
 
     function getCar(uint256 _carId) external view returns (
         string memory licensePlate,
         string memory chassisNumber,
         string memory brand,
-        string memory carType,
-        string memory color,
         string memory imageUrl,
+        string memory color,
         uint256 mileage,
         address owner,
         uint256 askingPrice,
@@ -111,9 +107,8 @@ contract CarRegistry {
             car.licensePlate,
             car.chassisNumber,
             car.brand,
-            car.carType,
-            car.color,
             car.imageUrl,
+            car.color,
             car.mileage,
             car.owner,
             car.askingPrice,
@@ -128,5 +123,9 @@ contract CarRegistry {
     function removeOwner(address _owner) external onlyOwner {
         require(_owner != msg.sender, "Cannot remove yourself as an owner");
         owners[_owner] = false;
+    }
+
+    function getCarsCount() external view returns (uint256) {
+        return carCount;
     }
 }

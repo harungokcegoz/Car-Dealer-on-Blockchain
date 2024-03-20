@@ -62,7 +62,7 @@ export const callContractMethod = async (methodName: string, ...args: any[]) => 
         const method = contract.methods[methodName](...args);
         const gas = await method.estimateGas({ from: account });
         const result = await method.send({ from: account, gas });
-        return result;
+        return await method.call();
     } catch (error) {
         console.error("Error calling contract method:", error);
         throw error;

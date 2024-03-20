@@ -8,7 +8,6 @@ const CarRegistrationForm = () => {
         licensePlate: '',
         chassisNumber: '',
         brand: '',
-        carType: '',
         color: '',
         mileage: '',
         askingPrice: '',
@@ -25,14 +24,12 @@ const CarRegistrationForm = () => {
 
     const useCarRegistrationHook = useCarRegistration();
     const handleSubmit = async () => {
-        console.log("clicked")
         const success = await useCarRegistrationHook.registerCar(formData);
         if (success) {
             setFormData({
                 licensePlate: '',
                 chassisNumber: '',
                 brand: '',
-                carType: '',
                 color: '',
                 mileage: '',
                 askingPrice: '',
@@ -78,17 +75,6 @@ const CarRegistrationForm = () => {
                                 value={formData.brand} 
                                 onChange={handleChange} 
                                 placeholder="Brand" />
-                        </div>
-                        {/* Car Type */}
-                        <div className="mb-4">
-                            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="carType">Car Type</label>
-                            <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
-                                id="carType" 
-                                type="text" 
-                                name="carType" 
-                                value={formData.carType} 
-                                onChange={handleChange} 
-                                placeholder="Car Type" />
                         </div>
                         {/* Color */}
                         <div className="mb-4">
