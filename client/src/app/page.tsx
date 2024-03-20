@@ -7,7 +7,7 @@ const Homepage = () => {
     
     return (
         <div>
-            {initialized && <CarCardsGallery cars={cars} />}
+            {initialized && <CarCardsGallery cars={cars} type={'homepage'}/>}
         </div>
     );
 }

@@ -5,7 +5,7 @@ const MyCars = () => {
     const { initialized, cars } = useFetchUsersCars();
     return (
         <div>
-            {initialized && <CarCardsGallery cars={cars} />}
+            {initialized && <CarCardsGallery cars={cars} type={'userpage'} />}
         </div>
     );
 }
