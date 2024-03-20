@@ -14,39 +14,20 @@ type Car = {
 
 const useCarListings = () => {
     const [initialized, setInitialized] = useState(false);
+    const [cars, setCars] = useState<Car[]>([]);
 
     useEffect(() => {
         const initializeWeb3 = async () => {
             await initWeb3();
             setInitialized(true);
-        }
+        };
         initializeWeb3();
     }, []);
-
-    const [cars, setCars] = useState<Car[]>([]);
 
     useEffect(() => {
         const fetchCarListings = async () => {
             try {
-                const carsCount = await callContractMethod('getCarsCount');
-                const fetchedCars: Car[] = [];
-                
-                for (let i = 0; i < carsCount; i++) {
-                    const carDetails = await callContractMethod('getCar', i);
-                    const askingPriceParsed = parseInt(carDetails.askingPrice);
-                    const mileageParsed = parseInt(carDetails.mileage);
-                    const car: Car = {
-                        licensePlate: carDetails.licensePlate,
-                        chassisNumber: carDetails.chassisNumber,
-                        brand: carDetails.brand,
-                        color: carDetails.color,
-                        imageUrl: carDetails.imageUrl,
-                        mileage: mileageParsed,
-                        owner: carDetails.owner,
-                        askingPrice: askingPriceParsed,
-                    };
-                    fetchedCars.push(car);
-                }
+                const fetchedCars = await callContractMethod('getAllCars');
                 setCars(fetchedCars);
             } catch (error) {
                 console.error("Error fetching car listings:", error);

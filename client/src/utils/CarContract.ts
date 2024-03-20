@@ -4,9 +4,7 @@ import ContractForTrading from '../../../contracts/build/contracts/CarRegistry.j
 let web3: Web3;
 let contract: any;
 
-// Function to initialize Web3 and contract instance
 export const initWeb3 = async () => {
-    // Check if Web3 has been injected by the browser (MetaMask)
     if (typeof window !== 'undefined' && typeof (window as any).ethereum !== 'undefined') {
 
         web3 = new Web3((window as any).ethereum);

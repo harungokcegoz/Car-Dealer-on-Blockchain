@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.5.1 <0.9.0;
+pragma experimental ABIEncoderV2;
 
 contract CarRegistry {
     struct Car {
@@ -63,19 +64,19 @@ contract CarRegistry {
     }
 
 
-    function updateMileage(uint256 _carId, uint256 _mileage) external onlyCarOwner(_carId) {
-        require(_mileage > cars[_carId].mileage, "New mileage must be greater than current mileage");
+    // function updateMileage(uint256 _carId, uint256 _mileage) external onlyCarOwner(_carId) {
+    //     require(_mileage > cars[_carId].mileage, "New mileage must be greater than current mileage");
 
-        cars[_carId].mileage = _mileage;
-        emit MileageUpdated(_carId, _mileage);
-    }
+    //     cars[_carId].mileage = _mileage;
+    //     emit MileageUpdated(_carId, _mileage);
+    // }
 
-    function listCarForSale(uint256 _carId, uint256 _askingPrice) external onlyCarOwner(_carId) {
-        cars[_carId].forSale = true;
-        cars[_carId].askingPrice = _askingPrice;
+    // function listCarForSale(uint256 _carId, uint256 _askingPrice) external onlyCarOwner(_carId) {
+    //     cars[_carId].forSale = true;
+    //     cars[_carId].askingPrice = _askingPrice;
 
-        emit CarListedForSale(_carId, _askingPrice);
-    }
+    //     emit CarListedForSale(_carId, _askingPrice);
+    // }
 
     // function buyCar(uint256 _carId) external payable {
     //     require(cars[_carId].forSale, "Car is not listed for sale");
@@ -116,16 +117,27 @@ contract CarRegistry {
         );
     }
 
-    function addOwner(address _newOwner) external onlyOwner {
-        owners[_newOwner] = true;
-    }
+    // function addOwner(address _newOwner) external onlyOwner {
+    //     owners[_newOwner] = true;
+    // }
 
-    function removeOwner(address _owner) external onlyOwner {
-        require(_owner != msg.sender, "Cannot remove yourself as an owner");
-        owners[_owner] = false;
-    }
+    // function removeOwner(address _owner) external onlyOwner {
+    //     require(_owner != msg.sender, "Cannot remove yourself as an owner");
+    //     owners[_owner] = false;
+    // }
 
     function getCarsCount() external view returns (uint256) {
         return carCount;
     }
+
+    function getAllCars() external view returns (Car[] memory) {
+        Car[] memory carArray = new Car[](carCount);
+        for (uint256 i = 0; i < carCount; i++) {
+            carArray[i] = cars[i];
+        }
+        return carArray;
+    }
+
+
+
 }
