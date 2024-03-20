@@ -20,7 +20,6 @@ const useCarListings = () => {
             try {
                 const currentAccount = await getCurrentAccount();
                 const carsOwned = await callContractMethod('getCarsOwnedByAddress', currentAccount);     
-                console.log("Cars owned by address: ", currentAccount, carsOwned)   
                 setCars(carsOwned);
             } catch (error) {
                 console.error("Error fetching car listings:", error);

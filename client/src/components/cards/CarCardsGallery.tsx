@@ -2,7 +2,6 @@ import CarCard from "./CarCard"
 
 
 const CarCardsGallery = ({ cars }) => {
-    console.log('cars', cars)
     return (
         <div className="my-20">
             {cars.length > 0 ? (
