@@ -1,15 +1,6 @@
-type CarCardProps = {
-    licensePlate: string;
-    chassisNumber: string;
-    brand: string;
-    color: string;
-    askingPrice: number;
-    imageUrl: string;
-    owner: string;
-    mileage: number;
-}
+import { Car } from '../../types/CarInterface';
 
-const CarCard = ({ brand, licensePlate, chassisNumber, mileage, color, askingPrice, imageUrl, owner }: CarCardProps) => {   
+const CarCard = ({ brand, licensePlate, chassisNumber, mileage, color, askingPrice, imageUrl, owner }: Car) => {   
      
     return (
         <div className="shadow-md rounded overflow-hidden">

@@ -138,6 +138,4 @@ contract CarRegistry {
         return carArray;
     }
 
-
-
 }

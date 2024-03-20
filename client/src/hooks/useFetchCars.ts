@@ -1,16 +1,6 @@
 import { useState, useEffect } from 'react';
 import { initWeb3, callContractMethod } from '../utils/CarContract';
-
-type Car = {
-    licensePlate: string;
-    chassisNumber: string;
-    brand: string;
-    color: string;
-    imageUrl: string;
-    mileage: number;
-    owner: string;
-    askingPrice: number;
-}
+import { Car } from '../types/CarInterface';
 
 const useCarListings = () => {
     const [initialized, setInitialized] = useState(false);
