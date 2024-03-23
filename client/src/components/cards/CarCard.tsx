@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { Car } from '../../types/CarInterface';
 import Button from '../atoms/Button';
 
@@ -9,7 +10,7 @@ type CarCardProps = {
 const CarCard = ({ car, type }: CarCardProps) => {
     return (
         <div className="shadow-md rounded overflow-hidden">
-            <img className="w-full h-80 object-cover" src={car.imageUrl} alt={`${car.brand} Car`} />
+            <Image className="w-full h-80 object-cover" src={car.imageUrl} alt={`${car.brand} Car`} />
             <div className="p-4">
                 <h3 className="text-xl font-bold mb-2">{car.brand}</h3>
                 <p className="text-sm text-gray-600 mb-2">{car.licensePlate} - {car.color}</p>
