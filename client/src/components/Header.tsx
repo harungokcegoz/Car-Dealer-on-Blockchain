@@ -1,20 +1,63 @@
+"use client";
 import Link from 'next/link';
-
+import useAccount from '../hooks/useRetrieveAccount';
+import { buyerAccount, sellerAccount, dealerAccount } from '../utils/MockAccounts';
 const Header = () => {
+    const account = useAccount();
+
+    const accountTypes = {
+        [sellerAccount]: "Seller",
+        [buyerAccount]: "Buyer",
+        [dealerAccount]: "Dealer",
+    };
+
+    const accountType = accountTypes[account];
+
+    let link1, link2, text1, text2;
+
+    switch(accountType) {
+        case 'Dealer':
+            link1 = "/apk-confirmations";
+            link2 = "/trade-confirmations";
+            text1 = "APK Confirmations";
+            text2 = "Trades Confirmations";
+            break;
+        case 'Buyer':
+            link1 = "/orders";
+            link2 = "/my-cars";
+            text1 = "Orders";
+            text2 = "My Cars";
+            break;
+        case 'Seller':
+            link1 = "/car-registration";
+            link2 = "/my-cars";
+            text1 = "Car Registration";
+            text2 = "My Cars";
+            break;
+        default:
+            link1 = "/car-registration";
+            link2 = "/my-cars";
+            text1 = "Car Registration";
+            text2 = "My Cars";
+    }
+
     return (
         <header className="bg-orange-400 text-white p-5">
             <div className="container mx-auto flex justify-between items-center">
                 <a href="/"><h1 className="text-4xl font-bold">HG Cars</h1></a>
                 <nav>
                     <ul className="flex space-x-4 text-xl">
-                        <li className="hover:text-gray-200">
+                        <li className="border-b-2 border-transparent hover:border-current hover:text-rose-100">
                             <Link href="/">Home</Link>
                         </li>
-                        <li className="hover:text-gray-200">
-                            <Link href="/car-registration">Car Registration</Link>
+                        <li className="border-b-2 border-transparent hover:border-current hover:text-rose-200">
+                            <Link href={link1}>{text1}</Link>
                         </li>
-                        <li className="hover:text-gray-200">
-                            <Link href="/my-cars">My Cars</Link>
+                        <li className="border-b-2 border-transparent hover:border-current hover:text-rose-200">
+                            <Link href={link2}>{text2}</Link>
+                        </li>
+                        <li>
+                            <span className='border-2 border-orange-200 px-6 rounded-full'>{accountType} Account</span>
                         </li>
                     </ul>
                 </nav>

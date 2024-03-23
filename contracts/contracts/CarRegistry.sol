@@ -13,6 +13,8 @@ contract CarRegistry {
         address owner;
         uint256 askingPrice;
         bool forSale;
+        address dealer;
+        bool mileageUpdateRequested;
     }
 
     mapping(uint256 => Car) public cars;
@@ -23,6 +25,7 @@ contract CarRegistry {
     event MileageUpdated(uint256 indexed carId, uint256 mileage);
     event CarListedForSale(uint256 indexed carId, uint256 askingPrice);
     event CarSold(uint256 indexed carId, address indexed oldOwner, address indexed newOwner, uint256 sellingPrice);
+    event MileageUpdateRequested(uint256 indexed carId, address indexed requester);
 
     modifier onlyOwner() {
         require(owners[msg.sender], "Only the contract owner can perform this action");
@@ -38,7 +41,7 @@ contract CarRegistry {
         owners[msg.sender] = true;
     }
 
-    function registerCar(
+   function registerCar(
         string calldata _licensePlate,
         string calldata _chassisNumber,
         string calldata _brand,
@@ -56,13 +59,31 @@ contract CarRegistry {
             mileage: _mileage,
             owner: msg.sender,
             askingPrice: _askingPrice,
-            forSale: true
+            forSale: true,
+            mileageUpdateRequested: false,
+            dealer: address(0)
         });
 
         emit CarRegistered(carCount, msg.sender);
         carCount++;
     }
 
+    function requestMileageUpdate(uint256 _carId) external onlyCarOwner(_carId) {
+        cars[_carId].mileageUpdateRequested = true;
+        cars[_carId].dealer = msg.sender; // Set the dealer as the requester
+        emit MileageUpdateRequested(_carId, msg.sender);
+    }
+
+    function confirmMileageUpdate(uint256 _carId, uint256 _newMileage) external {
+        require(cars[_carId].mileageUpdateRequested, "Mileage update not requested");
+        require(cars[_carId].dealer == msg.sender, "Only the dealer can confirm the mileage update");
+        require(_newMileage > cars[_carId].mileage, "New mileage must be greater than current mileage");
+
+        cars[_carId].mileage = _newMileage;
+        cars[_carId].mileageUpdateRequested = false;
+        cars[_carId].dealer = address(0); // Reset the dealer
+        emit MileageUpdated(_carId, _newMileage);
+    }
 
     // function updateMileage(uint256 _carId, uint256 _mileage) external onlyCarOwner(_carId) {
     //     require(_mileage > cars[_carId].mileage, "New mileage must be greater than current mileage");
@@ -149,5 +170,26 @@ contract CarRegistry {
 
         return ownedCars;
     }
+
+    function getRequestedMileageUpdateCars() external view returns (uint256[] memory) {
+        uint256[] memory requestedCars = new uint256[](carCount);
+        uint256 count = 0;
+
+        for (uint256 i = 0; i < carCount; i++) {
+            if (cars[i].mileageUpdateRequested) {
+                requestedCars[count] = i;
+                count++;
+            }
+        }
+
+        // Trim the array to remove any empty slots
+        uint256[] memory result = new uint256[](count);
+        for (uint256 j = 0; j < count; j++) {
+            result[j] = requestedCars[j];
+        }
+
+        return result;
+    }
+
 
 }
