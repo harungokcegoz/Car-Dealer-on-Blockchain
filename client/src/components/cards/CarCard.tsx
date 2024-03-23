@@ -8,7 +8,7 @@ type CarCardProps = {
     type: string;
 }
 const CarCard = ({ car, type }: CarCardProps) => {
-    
+
     const handleAPKMaintenance = async () => {
         try {
             const uintCarId = BigInt(car.carId);
@@ -25,11 +25,11 @@ const CarCard = ({ car, type }: CarCardProps) => {
             <Image className="w-full h-80 object-cover" src={car.imageUrl} alt={`${car.brand} Car`} width={300} height={200} priority={true}/>
             <div className="p-4">
                 <h3 className="text-xl font-bold mb-2">{car.brand}</h3>
-                <p className="text-sm text-gray-600 mb-2 uppercase">{car.licensePlate} - {car.color}</p>
-                <p className="text-sm text-gray-600 mb-2 uppercase">Seller: {car.owner}</p>
-                <p className="text-sm text-gray-600 mb-2 uppercase">Chasis Number: {car.chassisNumber}</p>
-                <p className="text-sm text-gray-600 mb-2 uppercase">Mileage: {String(car.mileage)} km</p>
-                <p className="text-xl font-bold text-sky-700">${String(car.askingPrice)}</p>
+                <p className="text-sm text-gray-600 mb-2 uppercase font-bold">{car.licensePlate} - {car.color}</p>
+                <p className="text-xs text-gray-600 mb-2 mt-5">Seller: {car.owner}</p>
+                <p className="text-xs text-gray-600 mb-2">Chasis Number: {car.chassisNumber}</p>
+                <p className="text-xs text-gray-600 mb-2">Mileage: {String(car.mileage)} km</p>
+                <p className="text-xl font-bold text-sky-700 mt-5 float-end mr-5">${String(car.askingPrice)}</p>
             </div>
             {type === 'userpage' && 
                 <div className="ctas ml-4 my-5">
@@ -37,7 +37,7 @@ const CarCard = ({ car, type }: CarCardProps) => {
                 </div>
             }
             {type === 'homepage' &&
-                <div className="ctas ml-4 my-5">
+                <div className="ctas ml-4 mb-5">
                     <Button text="Buy" type="button" />
                 </div>
             }

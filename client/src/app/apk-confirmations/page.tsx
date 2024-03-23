@@ -43,13 +43,13 @@ const APKConfirmationsPage = () => {
             <LoadingComponent />
         ) : (
             <div className="container mx-auto mt-8">
-                <h1 className="text-2xl font-bold my-14">APK Confirmations</h1>
+                <h1 className="text-2xl font-normal my-14">APK Confirmations</h1>
                 {requestedCarsArray.length === 0 ? (
-                    <p>No pending APK confirmations</p>
+                    <p className='text-xl font-bold'>No pending APK confirmations</p>
                 ) : (
                     initialized && 
                     <div>
-                        <div className="columns flex gap-20 border-b-4 border-orange-200 py-6">
+                        <div className="columns flex gap-20 border-b-2 border-orange-300 py-6 drop-shadow-md">
                             <div className="flex-1">
                                 <p className="text-md font-bold">Car Brand</p>
                             </div>
@@ -71,7 +71,7 @@ const APKConfirmationsPage = () => {
                         </div >
                         <div className="rows mt-5">
                         {requestedCarsArray.map((car, index) => (
-                            <div key={index} className="mb-4 flex gap-20 border-b-2 py-5 items-center">
+                            <div key={index} className="mb-4 flex gap-20 border-b-2 py-7 items-center">
                                 <div className="flex-1">
                                     <p className="text-md ">{car.brand}</p>
                                 </div>
@@ -90,7 +90,7 @@ const APKConfirmationsPage = () => {
                                         placeholder="New Mileage"
                                         value={newMileages[car.carId] || ''}
                                         onChange={(e) => handleInputChange(car.carId, e.target.value)}
-                                        className="border rounded p-2 w-2/3 focus:outline-none focus:ring focus:border-blue-300"
+                                        className="border rounded p-2 w-2/3 focus:outline-none focus:ring focus:border-blue-300 text-xs font-light"
                                     />
                                 </div>
                                 <div className="flex-1">
