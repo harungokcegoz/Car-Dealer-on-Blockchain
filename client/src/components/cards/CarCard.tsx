@@ -1,12 +1,25 @@
 import Image from 'next/image';
 import { Car } from '../../types/CarInterface';
 import Button from '../atoms/Button';
+import { callContractMethod } from '../../utils/CarContract';
 
 type CarCardProps = {
     car: Car;
     type: string;
 }
 const CarCard = ({ car, type }: CarCardProps) => {
+    
+    const handleAPKMaintenance = async () => {
+        try {
+            const uintCarId = BigInt(car.carId);
+            await callContractMethod('requestMileageUpdate', uintCarId);
+            alert('Mileage update requested successfully');
+        } catch (error) {
+            console.error('Error requesting mileage update:', error);
+            alert('Error requesting mileage update');
+        }
+    };
+
     return (
         <div className="shadow-md rounded overflow-hidden">
             <Image className="w-full h-80 object-cover" src={car.imageUrl} alt={`${car.brand} Car`} width={300} height={200} priority={true}/>
@@ -20,7 +33,7 @@ const CarCard = ({ car, type }: CarCardProps) => {
             </div>
             {type === 'userpage' && 
                 <div className="ctas ml-4 my-5">
-                    <Button text="APK Maintenance" type="button" />
+                    <Button text="APK Maintenance" type="button" onClick={handleAPKMaintenance} />
                 </div>
             }
             {type === 'homepage' &&

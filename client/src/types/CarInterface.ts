@@ -1,4 +1,5 @@
 export type Car = {
+    carId: number;
     licensePlate: string;
     chassisNumber: string;
     brand: string;

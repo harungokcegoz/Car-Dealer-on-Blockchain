@@ -4,6 +4,7 @@ pragma experimental ABIEncoderV2;
 
 contract CarRegistry {
     struct Car {
+        uint256 carId;
         string licensePlate;
         string chassisNumber;
         string brand;
@@ -51,6 +52,7 @@ contract CarRegistry {
         uint256 _askingPrice
     ) external {
         cars[carCount] = Car({
+            carId: carCount,
             licensePlate: _licensePlate,
             chassisNumber: _chassisNumber,
             brand: _brand,
@@ -68,9 +70,8 @@ contract CarRegistry {
         carCount++;
     }
 
-    function requestMileageUpdate(uint256 _carId) external onlyCarOwner(_carId) {
+    function requestMileageUpdate(uint256 _carId) external {
         cars[_carId].mileageUpdateRequested = true;
-        cars[_carId].dealer = msg.sender; // Set the dealer as the requester
         emit MileageUpdateRequested(_carId, msg.sender);
     }
 
@@ -81,7 +82,7 @@ contract CarRegistry {
 
         cars[_carId].mileage = _newMileage;
         cars[_carId].mileageUpdateRequested = false;
-        cars[_carId].dealer = address(0); // Reset the dealer
+        cars[_carId].dealer = msg.sender;
         emit MileageUpdated(_carId, _newMileage);
     }
 
@@ -171,19 +172,19 @@ contract CarRegistry {
         return ownedCars;
     }
 
-    function getRequestedMileageUpdateCars() external view returns (uint256[] memory) {
-        uint256[] memory requestedCars = new uint256[](carCount);
+    function getRequestedMileageUpdateCars() external view returns (Car[] memory) {
+        Car[] memory requestedCars = new Car[](carCount);
         uint256 count = 0;
 
         for (uint256 i = 0; i < carCount; i++) {
             if (cars[i].mileageUpdateRequested) {
-                requestedCars[count] = i;
+                requestedCars[count] = cars[i];
                 count++;
             }
         }
 
         // Trim the array to remove any empty slots
-        uint256[] memory result = new uint256[](count);
+        Car[] memory result = new Car[](count);
         for (uint256 j = 0; j < count; j++) {
             result[j] = requestedCars[j];
         }
