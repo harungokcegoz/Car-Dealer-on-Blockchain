@@ -1,15 +1,21 @@
 import { useState, useEffect } from 'react';
-import { initWeb3, callContractMethod } from '../utils/CarContract';
+import { initWeb3, callContractMethod, getCurrentAccount } from '../utils/CarContract';
 import { Car } from '../types/CarInterface';
 import { nftStorageApiKey } from '../utils/FetchKeys';
 
-const useCarListings = () => {
+type UseFetchCarsProps =  'all' | 'user';
+
+const useFetchCars = (fetchType: UseFetchCarsProps) => {
     const [initialized, setInitialized] = useState(false);
     const [cars, setCars] = useState<Car[]>([]);
+    const [accountAddress, setAccountAddress] = useState('');
 
     useEffect(() => {
         const initializeWeb3 = async () => {
             await initWeb3();
+            await getCurrentAccount().then((account) => {
+                setAccountAddress(account);
+            });
             setInitialized(true);
         };
         initializeWeb3();
@@ -18,7 +24,8 @@ const useCarListings = () => {
     useEffect(() => {
         const fetchCarListings = async () => {
             try {
-                const fetchedCars = await callContractMethod('getAllCars');
+                const fetchFunction = fetchType === 'user' ? 'getCarsOwnedByAddress' : 'getAllCars';
+                const fetchedCars = fetchType === 'user' ? await callContractMethod(fetchFunction, accountAddress) : await callContractMethod(fetchFunction);
                 const carsWithImages = await Promise.all(fetchedCars.map(async (car) => {
                     const imageUrl = await getImageUrlFromCID(car.imageUrl);
                     return { ...car, imageUrl };
@@ -51,4 +58,4 @@ const useCarListings = () => {
     return { initialized, cars };
 };
 
-export default useCarListings;
+export default useFetchCars;

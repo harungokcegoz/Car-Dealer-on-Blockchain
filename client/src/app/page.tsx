@@ -3,7 +3,7 @@ import CarCardsGallery from '@/components/cards/CarCardsGallery';
 import  useFetchCars from '@/hooks/useFetchCars';
 
 const Homepage = () => {
-    const { initialized, cars } = useFetchCars(); 
+    const { initialized, cars } = useFetchCars('all'); 
     
     return (
         <div>

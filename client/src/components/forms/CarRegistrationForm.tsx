@@ -49,7 +49,7 @@ const CarRegistrationForm = () => {
 
         const data = await response.json();
         const imageUrl = data.value.cid;
-        console.log(imageUrl)
+        
         const success = await useCarRegistrationHook.registerCar({
             ...formData,
             imageUrl

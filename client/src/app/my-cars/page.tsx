@@ -1,8 +1,9 @@
 "use client";
-import useFetchUsersCars from '../../hooks/useFetchUsersCars';
+import useFetchCars from '../../hooks/useFetchCars';
 import CarCardsGallery from '../../components/cards/CarCardsGallery';
 const MyCars = () => {
-    const { initialized, cars } = useFetchUsersCars();
+    const { initialized, cars } = useFetchCars('user');
+
     return (
         <div>
             {initialized && <CarCardsGallery cars={cars} type={'userpage'} />}
