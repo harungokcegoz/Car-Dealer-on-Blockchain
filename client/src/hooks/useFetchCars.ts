@@ -9,6 +9,7 @@ const useFetchCars = (fetchType: UseFetchCarsProps) => {
     const [initialized, setInitialized] = useState(false);
     const [cars, setCars] = useState<Car[]>([]);
     const [accountAddress, setAccountAddress] = useState('');
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         const initializeWeb3 = async () => {
@@ -23,6 +24,7 @@ const useFetchCars = (fetchType: UseFetchCarsProps) => {
 
     useEffect(() => {
         const fetchCarListings = async () => {
+            setLoading(true);
             try {
                 const fetchFunction = fetchType === 'user' ? 'getCarsOwnedByAddress' : 'getAllCars';
                 const fetchedCars = fetchType === 'user' ? await callContractMethod(fetchFunction, accountAddress) : await callContractMethod(fetchFunction);
@@ -34,6 +36,7 @@ const useFetchCars = (fetchType: UseFetchCarsProps) => {
             } catch (error) {
                 console.error("Error fetching car listings:", error);
             }
+            setLoading(false);
         };
 
         if (initialized) {
@@ -55,7 +58,7 @@ const useFetchCars = (fetchType: UseFetchCarsProps) => {
         }
     };
 
-    return { initialized, cars };
+    return { initialized, cars, loading };
 };
 
 export default useFetchCars;

@@ -1,13 +1,18 @@
-"use client";
+"use client"
 import CarCardsGallery from '@/components/cards/CarCardsGallery';
-import  useFetchCars from '@/hooks/useFetchCars';
+import useFetchCars from '@/hooks/useFetchCars';
+import LoadingComponent from '../components/atoms/Loading';
 
 const Homepage = () => {
-    const { initialized, cars } = useFetchCars('all'); 
-    
+    const { initialized, cars, loading } = useFetchCars('all'); 
+
     return (
         <div>
-            {initialized && <CarCardsGallery cars={cars} type={'homepage'}/>}
+            {loading ? (
+                <LoadingComponent />
+            ) : (
+                initialized && <CarCardsGallery cars={cars} type={'homepage'} />
+            )}
         </div>
     );
 }
