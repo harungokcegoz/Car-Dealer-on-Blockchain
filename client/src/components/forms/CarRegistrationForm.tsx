@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import useCarRegistration from '@/hooks/useCarRegistration';
 import Button from '../atoms/Button';
+import { nftStorageApiKey } from '../../utils/FetchKeys';
 
 const CarRegistrationForm = () => {
     const [formData, setFormData] = useState({
@@ -11,7 +12,7 @@ const CarRegistrationForm = () => {
         color: '',
         mileage: '',
         askingPrice: '',
-        imageUrl: ''
+        file: null as File | null
     });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -22,9 +23,38 @@ const CarRegistrationForm = () => {
         }));
     }
 
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files && e.target.files.length > 0) {
+            const file = e.target.files[0];
+            setFormData(prevState => ({
+                ...prevState,
+                file: file
+            }));
+        }
+    }
+
     const useCarRegistrationHook = useCarRegistration();
+
     const handleSubmit = async () => {
-        const success = await useCarRegistrationHook.registerCar(formData);
+        const uploadData = new FormData();
+        if (formData.file) {
+            uploadData.append('file', formData.file);
+        }
+
+        const response = await fetch('https://api.nft.storage/upload', {
+            method: 'POST',
+            headers: { Authorization: `Bearer ${nftStorageApiKey}` },
+            body: uploadData
+        });
+
+        const data = await response.json();
+        const imageUrl = data.value.cid;
+        console.log(imageUrl)
+        const success = await useCarRegistrationHook.registerCar({
+            ...formData,
+            imageUrl
+        });
+
         if (success) {
             setFormData({
                 licensePlate: '',
@@ -33,7 +63,7 @@ const CarRegistrationForm = () => {
                 color: '',
                 mileage: '',
                 askingPrice: '',
-                imageUrl: ''
+                file: null
             });
         }
     }
@@ -109,17 +139,12 @@ const CarRegistrationForm = () => {
                                 onChange={handleChange} 
                                 placeholder="Asking Price" />
                         </div>
-                        {/* Asking Price */}
+                        {/* Image */}
                         <div className="mb-4">
                             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="askingPrice">Car Image Link</label>
-                            <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
-                                id="image" 
-                                type="link" 
-                                name="imageUrl" 
-                                value={formData.imageUrl} 
-                                onChange={handleChange} 
-                                placeholder="Car Image Link" />
+                            <input type="file" name="file" onChange={handleFileChange} />
                         </div>
+                        {/* Submit Button */}
                         <div className="flex items-center justify-between mt-10">
                             <Button type="submit" text="Register Car" onClick={handleSubmit} />
                         </div>
