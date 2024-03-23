@@ -1,17 +1,24 @@
 "use client";
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import useAccount from '../hooks/useRetrieveAccount';
-import { buyerAccount, sellerAccount, dealerAccount } from '../utils/MockAccounts';
+import useRetrieveAccount from '../hooks/useRetrieveAccount';
+import { buyerAccount, sellerAccount, dealerAccount } from '../utils/FetchKeys';
+
+const accountTypes: { [key: string]: string } = {
+    [sellerAccount]: "Seller",
+    [buyerAccount]: "Buyer",
+    [dealerAccount]: "Dealer",
+};
+
 const Header = () => {
-    const account = useAccount();
+    const [accountType, setAccountType] = useState<string>();
+    const account = useRetrieveAccount();
 
-    const accountTypes = {
-        [sellerAccount]: "Seller",
-        [buyerAccount]: "Buyer",
-        [dealerAccount]: "Dealer",
-    };
-
-    const accountType = accountTypes[account];
+    useEffect(() => {
+        if (account) {
+            setAccountType(accountTypes[account]);
+        }
+    }, [account, accountType]);
 
     let link1, link2, text1, text2;
 
