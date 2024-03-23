@@ -49,11 +49,11 @@ const Header = () => {
     }
 
     return (
-        <header className="bg-orange-400 text-white p-5">
+        <header className="bg-orange-400 text-white p-5 py-7">
             <div className="container mx-auto flex justify-between items-center">
-                <a href="/"><h1 className="text-4xl font-bold">HG Cars</h1></a>
+                <a href="/"><h1 className="text-3xl font-bold">HG Cars</h1></a>
                 <nav>
-                    <ul className="flex space-x-4 text-xl">
+                    <ul className="flex space-x-8 text-md">
                         <li className="border-b-2 border-transparent hover:border-current hover:text-rose-100">
                             <Link href="/">Home</Link>
                         </li>
@@ -64,7 +64,7 @@ const Header = () => {
                             <Link href={link2}>{text2}</Link>
                         </li>
                         <li>
-                            <span className='border-2 border-orange-200 px-6 rounded-full'>{accountType} Account</span>
+                            <span className='border-2 border-orange-200 px-6 py-2 rounded-full ml-8'>{accountType} Account</span>
                         </li>
                     </ul>
                 </nav>

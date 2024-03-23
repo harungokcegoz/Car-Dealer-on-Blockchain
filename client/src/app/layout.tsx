@@ -1,12 +1,7 @@
 import type { Metadata } from "next";
-import { NTR } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 
-const ntr = NTR({
-  subsets: ["latin"],
-  weight: "400"
-});
 
 export const metadata: Metadata = {
   title: "Auto Trading",
@@ -20,7 +15,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${ntr.className} bg-gray-100`}>
+      <body className="bg-gray-100 font-montserrat">
         <Header />
         
         {children}

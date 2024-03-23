@@ -43,7 +43,7 @@ const APKConfirmationsPage = () => {
             <LoadingComponent />
         ) : (
             <div className="container mx-auto mt-8">
-                <h1 className="text-3xl font-bold mb-4">APK Confirmations</h1>
+                <h1 className="text-2xl font-bold my-14">APK Confirmations</h1>
                 {requestedCarsArray.length === 0 ? (
                     <p>No pending APK confirmations</p>
                 ) : (
@@ -51,29 +51,29 @@ const APKConfirmationsPage = () => {
                     <div>
                         <div className="columns flex gap-20 border-b-4 border-orange-200 py-6">
                             <div className="flex-1">
-                                <p className="text-lg font-bold">Car Brand</p>
+                                <p className="text-md font-bold">Car Brand</p>
                             </div>
                             <div className="flex-1">
-                                <p className="text-lg font-bold">License Plate</p>
+                                <p className="text-md font-bold">License Plate</p>
                             </div>
                             <div className="flex-1">
-                                <p className="text-lg font-bold">Chassis Number</p>
+                                <p className="text-md font-bold">Chassis Number</p>
                             </div>
                             <div className="flex-1">
-                                <p className="text-lg font-bold">Current Mileage</p>
+                                <p className="text-md font-bold">Current Mileage</p>
                             </div>
                             <div className="flex-1">
-                                <p className="text-lg font-bold">New Mileage</p>
+                                <p className="text-md font-bold">New Mileage</p>
                             </div>
                             <div className="flex-1">
-                                <p className="text-lg font-bold">Action</p>
+                                <p className="text-md font-bold">Action</p>
                             </div>
                         </div >
                         <div className="rows mt-5">
                         {requestedCarsArray.map((car, index) => (
                             <div key={index} className="mb-4 flex gap-20 border-b-2 py-5 items-center">
                                 <div className="flex-1">
-                                    <p className="text-lg font-bold">{car.brand}</p>
+                                    <p className="text-md ">{car.brand}</p>
                                 </div>
                                 <div className="flex-1">
                                     <p>{car.licensePlate}</p>
