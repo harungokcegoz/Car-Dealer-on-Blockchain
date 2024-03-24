@@ -14,6 +14,7 @@ contract CarRegistry {
         uint256 askingPrice;
         bool mileageUpdateRequested;
         address dealer;
+        bool forSale;
     }
 
     mapping(uint256 => Car) public cars;
@@ -59,7 +60,8 @@ contract CarRegistry {
             owner: msg.sender,
             askingPrice: _askingPrice,
             mileageUpdateRequested: false,
-            dealer: _dealer
+            dealer: _dealer,
+            forSale: true
         });
 
         emit CarRegistered(carCount, msg.sender);

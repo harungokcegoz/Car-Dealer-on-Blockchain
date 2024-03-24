@@ -10,7 +10,7 @@ interface SecondaryNavProps {
 const SecondaryNav: React.FC<SecondaryNavProps> = ({ link1, text1, link2, text2 }) => {
     return (
         <>  
-            <nav className='text-orange-700 border-b-2 '>
+            <nav className='text-orange-700 border-b-2'>
                 <ul className='flex items-center justify-center space-x-20'>
                     <li className="border-b-2 border-transparent hover:border-current hover:text-rose-500 h-14 flex items-center justify-center">
                         <Link href="/">Home</Link>

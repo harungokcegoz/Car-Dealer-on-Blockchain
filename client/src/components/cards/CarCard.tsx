@@ -41,11 +41,14 @@ const CarCard = ({ car, type }: CarCardProps) => {
             <div className="p-4">
                 <h3 className="text-xl font-bold mb-2">{car.brand}</h3>
                 <p className="text-sm text-gray-600 mb-2 uppercase font-bold">{car.licensePlate} - {car.color}</p>
-                <p className="text-xs text-gray-600 mb-2 mt-5">Seller: {car.owner}</p>
+                <p className="text-xs text-gray-600 mb-2 mt-5 md:whitespace-normal">Seller: {car.owner}</p>
                 <p className="text-xs text-gray-600 mb-2">Mileage: {String(car.mileage)} km</p>
             </div>
             <div className="last-row flex justify-between w-full px-4 pb-6 items-center">
-                <p className="text-xl font-bold text-sky-700"><span>${String(car.askingPrice)}</span> <span className='text-black font-extrabold'>~</span> <span className='text-blue-700'><FontAwesomeIcon icon={faEthereum} /></span> {Number(currentValueInEth).toFixed(6)}</p>
+                <p className="text-xl font-bold text-sky-700">
+                    <span>${String(car.askingPrice)}</span> 
+                    <span className='text-black font-extrabold'> ~ </span> 
+                    <span className='text-blue-700'><FontAwesomeIcon icon={faEthereum} /></span> {Number(currentValueInEth).toFixed(6)}</p>
                 {type === 'userpage' && 
                     <div className="ctas">
                         <Button text="APK Maintenance" type="button" onClick={handleAPKMaintenance} />
@@ -53,7 +56,7 @@ const CarCard = ({ car, type }: CarCardProps) => {
                 }
                 {type === 'homepage' &&
                     <div className="ctas">
-                        <Button text="Buy" type="button" disabled={currentAccount === car.owner || accountType === 'Dealer'}/>
+                        <Button text={car.forSale ? "Buy" : "Sold!"} type="button" disabled={currentAccount === car.owner || accountType === 'Dealer' || !car.forSale }/>
                     </div>
                 }
             </div>

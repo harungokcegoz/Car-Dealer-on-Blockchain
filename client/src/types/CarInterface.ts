@@ -7,4 +7,5 @@ export type Car = {
     mileage: number;
     owner: string;
     askingPrice: number;
+    forSale: boolean;
 }

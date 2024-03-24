@@ -33,6 +33,7 @@ const useFetchCars = (fetchType: UseFetchCarsProps) => {
                     return { ...car, imageUrl };
                 }));
                 setCars(carsWithImages);
+                console.log("Fetched car listings:", carsWithImages)
             } catch (error) {
                 console.error("Error fetching car listings:", error);
             }

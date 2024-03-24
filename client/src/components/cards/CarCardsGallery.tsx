@@ -9,7 +9,7 @@ const CarCardsGallery = ({ cars, type }: { cars: any[], type: string }) => {
                 </div>
             ) : (
                 <div className="flex items-center justify-center">
-                    <p>No cars in the system for now.</p>
+                    <p className="font-normal text-xl">No cars in the system for now.</p>
                 </div>
             )}
         </div>

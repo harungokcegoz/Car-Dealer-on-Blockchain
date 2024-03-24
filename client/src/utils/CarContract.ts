@@ -21,7 +21,7 @@ export const initWeb3 = async () => {
     const contractABI = ContractForTrading.abi;
     const contractAddress = ContractForTrading.networks['5777'].address;
 
-    contract = new web3.eth.Contract(contractABI, contractAddress);    
+    contract = new web3.eth.Contract(contractABI, contractAddress);
 }
 
 export const getCurrentAccount = async () => {
