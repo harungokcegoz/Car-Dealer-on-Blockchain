@@ -1,9 +1,14 @@
 "use client";
-import useRetrieveAccountType from '@/hooks/useRetrieveAccountType';
 import Link from 'next/link';
+import { useState, useEffect } from 'react';
+import useRetrieveAccountType from '@/hooks/useRetrieveAccountType';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEthereum } from "@fortawesome/free-brands-svg-icons";
+import useCurrentEtherPrice from '@/hooks/useCurrentEtherPrice';
+
 const Header = () => {
     const accountType = useRetrieveAccountType();
-
+    const currentEtherPrice = useCurrentEtherPrice() || 3400;
     let link1, link2, text1, text2;
 
     switch(accountType) {
@@ -38,6 +43,9 @@ const Header = () => {
                 <a href="/"><h1 className="text-3xl font-bold">HG Cars</h1></a>
                 <nav>
                     <ul className="flex space-x-8 text-md">
+                        <span className="ether">
+                            <FontAwesomeIcon icon={faEthereum} /> {currentEtherPrice}$
+                        </span>
                         <li className="border-b-2 border-transparent hover:border-current hover:text-rose-100">
                             <Link href="/">Home</Link>
                         </li>
