@@ -1,5 +1,5 @@
 "use client";
-import useRetrieveAccountType from '@/hooks/useSetAccountType';
+import useRetrieveAccountType from '@/hooks/useRetrieveAccountType';
 import Link from 'next/link';
 const Header = () => {
     const accountType = useRetrieveAccountType();
