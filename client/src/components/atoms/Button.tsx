@@ -10,7 +10,7 @@ type Props = {
 const Button = ({ onClick, text, type, disabled }: Props) => {
     return (
         <button 
-            className={`bg-orange-700 hover:bg-orange-600 text-white text-sm font-normal py-2 px-4 rounded focus:outline-none focus:shadow-outline shadow-lg ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`} 
+            className={`bg-orange-700 hover:bg-orange-600 text-white text-sm font-normal py-2 px-4 rounded-full focus:outline-none focus:shadow-outline shadow-lg ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`} 
             type={type} 
             onClick={onClick}
             disabled={disabled}

@@ -1,24 +1,7 @@
 "use client";
-import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import useRetrieveAccount from '../hooks/useRetrieveAccount';
-import { buyerAccount, sellerAccount, dealerAccount } from '../utils/FetchKeys';
-
-const accountTypes: { [key: string]: string } = {
-    [sellerAccount]: "Seller",
-    [buyerAccount]: "Buyer",
-    [dealerAccount]: "Dealer",
-};
-
 const Header = () => {
-    const [accountType, setAccountType] = useState<string>();
-    const account = localStorage.getItem('currentAccount');
-
-    useEffect(() => {
-        if (account) {
-            setAccountType(accountTypes[account]);
-        }
-    }, [account, accountType]);
+    const accountType = localStorage.getItem('accountType');
 
     let link1, link2, text1, text2;
 

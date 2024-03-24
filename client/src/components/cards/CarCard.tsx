@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import { Car } from '../../types/CarInterface';
 import Button from '../atoms/Button';
-import { callContractMethod, getCurrentAccount } from '../../utils/CarContract';
+import { callContractMethod } from '../../utils/CarContract';
 
 type CarCardProps = {
     car: Car;
@@ -19,6 +19,8 @@ const CarCard = ({ car, type }: CarCardProps) => {
             alert('Error requesting mileage update');
         }
     };
+
+    const accountType = localStorage.getItem('accountType');
 
     return (
         <div className="shadow-md rounded overflow-hidden">
@@ -39,7 +41,7 @@ const CarCard = ({ car, type }: CarCardProps) => {
                 }
                 {type === 'homepage' &&
                     <div className="ctas">
-                        <Button text="Buy" type="button" disabled={currentAccount === car.owner}/>
+                        <Button text="Buy" type="button" disabled={currentAccount === car.owner || accountType === 'Dealer'}/>
                     </div>
                 }
             </div>
