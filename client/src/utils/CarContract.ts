@@ -21,32 +21,7 @@ export const initWeb3 = async () => {
     const contractABI = ContractForTrading.abi;
     const contractAddress = ContractForTrading.networks['5777'].address;
 
-    contract = new web3.eth.Contract(contractABI, contractAddress);
-
-    contract.events.allEvents((error: any, event: any) => {
-        if (error) {
-            console.error('Error with event subscription:', error);
-        } else {
-            console.log('Received event:', event);
-            switch (event.event) {
-                case 'CarRegistered':
-                    updateCarListings(event.returnValues.carId);
-                    break;
-                default:
-                    console.warn('Unrecognized event type:', event.event);
-                    break;
-            }
-        }
-    });
-
-    contract.getPastEvents('CarRegistered', { fromBlock: 0, toBlock: 'latest' }, (error: any, events: any) => {
-        if (error) {
-            console.error('Error fetching past CarRegistered events:', error);
-        } else {
-            console.log('Past CarRegistered events:', events);
-        }
-    });
-    
+    contract = new web3.eth.Contract(contractABI, contractAddress);    
 }
 
 export const getCurrentAccount = async () => {
