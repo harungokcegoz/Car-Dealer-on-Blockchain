@@ -12,7 +12,7 @@ const accountTypes: { [key: string]: string } = {
 
 const Header = () => {
     const [accountType, setAccountType] = useState<string>();
-    const account = useRetrieveAccount();
+    const account = localStorage.getItem('currentAccount');
 
     useEffect(() => {
         if (account) {

@@ -1,14 +1,14 @@
 import Image from 'next/image';
 import { Car } from '../../types/CarInterface';
 import Button from '../atoms/Button';
-import { callContractMethod } from '../../utils/CarContract';
+import { callContractMethod, getCurrentAccount } from '../../utils/CarContract';
 
 type CarCardProps = {
     car: Car;
     type: string;
 }
 const CarCard = ({ car, type }: CarCardProps) => {
-
+    const currentAccount = localStorage.getItem('currentAccount');
     const handleAPKMaintenance = async () => {
         try {
             const uintCarId = BigInt(car.carId);
@@ -29,18 +29,21 @@ const CarCard = ({ car, type }: CarCardProps) => {
                 <p className="text-xs text-gray-600 mb-2 mt-5">Seller: {car.owner}</p>
                 <p className="text-xs text-gray-600 mb-2">Chasis Number: {car.chassisNumber}</p>
                 <p className="text-xs text-gray-600 mb-2">Mileage: {String(car.mileage)} km</p>
-                <p className="text-xl font-bold text-sky-700 mt-5 float-end mr-5">${String(car.askingPrice)}</p>
             </div>
-            {type === 'userpage' && 
-                <div className="ctas ml-4 my-5">
-                    <Button text="APK Maintenance" type="button" onClick={handleAPKMaintenance} />
-                </div>
-            }
-            {type === 'homepage' &&
-                <div className="ctas ml-4 mb-5">
-                    <Button text="Buy" type="button" />
-                </div>
-            }
+            <div className="last-row flex justify-between w-full px-4 pb-6 items-center">
+                <p className="text-xl font-bold text-sky-700">${String(car.askingPrice)}</p>
+                {type === 'userpage' && 
+                    <div className="ctas">
+                        <Button text="APK Maintenance" type="button" onClick={handleAPKMaintenance} />
+                    </div>
+                }
+                {type === 'homepage' &&
+                    <div className="ctas">
+                        <Button text="Buy" type="button" disabled={currentAccount === car.owner}/>
+                    </div>
+                }
+            </div>
+         
         </div>
     );
 }

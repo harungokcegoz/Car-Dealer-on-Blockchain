@@ -69,14 +69,14 @@ const CarRegistrationForm = () => {
     }
     
     return (
-        <div className="container mx-auto py-20">
+        <div className="container mx-auto py-20 flex justify-center">
             {useCarRegistrationHook.initialized && (
-                <div className="w-full max-w-md mx-auto">
-                    <h2 className="text-2xl font-bold mb-4">Car Registration</h2>
-                    <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-                        <div className="mb-4">
+                <div className="w-2/3">
+                    <h2 className="text-2xl font-bold mb-12">Car Registration</h2>
+                    <div className="bg-white shadow-md rounded p-12 mb-8 flex flex-wrap">
+                        <div className="mb-8 pr-4 w-1/2">
                             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="licensePlate">License Plate</label>
-                            <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+                            <input className="shadow appearance-none border rounded w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-xs" 
                                 id="licensePlate" 
                                 type="text" 
                                 name="licensePlate" 
@@ -85,9 +85,9 @@ const CarRegistrationForm = () => {
                                 placeholder="License Plate" />
                         </div>
                         {/* Chassis Number */}
-                        <div className="mb-4">
+                        <div className="mb-8 w-1/2 pr-4">
                             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="chassisNumber">Chassis Number</label>
-                            <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+                            <input className="shadow appearance-none border rounded w-full p-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-xs" 
                                 id="chassisNumber" 
                                 type="text" 
                                 name="chassisNumber" 
@@ -96,9 +96,9 @@ const CarRegistrationForm = () => {
                                 placeholder="Chassis Number" />
                         </div>
                         {/* Brand */}
-                        <div className="mb-4">
+                        <div className="mb-8 w-1/2 pr-4">
                             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="brand">Brand</label>
-                            <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+                            <input className="shadow appearance-none border rounded w-full p-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-xs" 
                                 id="brand" 
                                 type="text" 
                                 name="brand" 
@@ -107,9 +107,9 @@ const CarRegistrationForm = () => {
                                 placeholder="Brand" />
                         </div>
                         {/* Color */}
-                        <div className="mb-4">
+                        <div className="mb-8 w-1/2 pr-4">
                             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="color">Color</label>
-                            <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+                            <input className="shadow appearance-none border rounded w-full p-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-xs" 
                                 id="color" 
                                 type="text" 
                                 name="color" 
@@ -118,9 +118,9 @@ const CarRegistrationForm = () => {
                                 placeholder="Color" />
                         </div>
                         {/* Mileage */}
-                        <div className="mb-4">
+                        <div className="mb-8 w-1/2 pr-4">
                             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="mileage">Mileage</label>
-                            <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+                            <input className="shadow appearance-none border rounded w-full p-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-xs" 
                                 id="mileage" 
                                 type="number" 
                                 name="mileage" 
@@ -129,9 +129,9 @@ const CarRegistrationForm = () => {
                                 placeholder="Mileage" />
                         </div>
                         {/* Asking Price */}
-                        <div className="mb-4">
+                        <div className="mb-8 w-1/2 pr-4">
                             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="askingPrice">Asking Price</label>
-                            <input className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" 
+                            <input className="shadow appearance-none border rounded w-full p-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-xs" 
                                 id="askingPrice" 
                                 type="number" 
                                 name="askingPrice" 
@@ -139,14 +139,16 @@ const CarRegistrationForm = () => {
                                 onChange={handleChange} 
                                 placeholder="Asking Price" />
                         </div>
-                        {/* Image */}
-                        <div className="mb-4">
-                            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="askingPrice">Car Image Link</label>
-                            <input type="file" name="file" onChange={handleFileChange} />
-                        </div>
-                        {/* Submit Button */}
-                        <div className="flex items-center justify-between mt-10">
-                            <Button type="submit" text="Register Car" onClick={handleSubmit} />
+                        <div className="last-row flex justify-between w-full pr-4">
+                            {/* Image */}
+                            <div className="mb-8">
+                                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="askingPrice">Car Image Link</label>
+                                <input type="file" name="file" onChange={handleFileChange} className='text-xs py-3'/>
+                            </div>
+                            {/* Submit Button */}
+                            <div className="flex items-center">
+                                <Button type="submit" text="Submit" onClick={handleSubmit} />
+                            </div>
                         </div>
                     </div>
                 </div>
