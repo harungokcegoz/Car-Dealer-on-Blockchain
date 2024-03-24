@@ -1,7 +1,8 @@
 "use client";
+import useRetrieveAccountType from '@/hooks/useSetAccountType';
 import Link from 'next/link';
 const Header = () => {
-    const accountType = window.localStorage.getItem('accountType');
+    const accountType = useRetrieveAccountType();
 
     let link1, link2, text1, text2;
 
