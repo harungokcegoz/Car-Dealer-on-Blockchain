@@ -14,6 +14,11 @@ const config: Config = {
       'extrabold': "800",
       'black': "900",
     },
+    extend: {
+      width: {
+        '100px': '100px',
+      },
+    },
   },
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",

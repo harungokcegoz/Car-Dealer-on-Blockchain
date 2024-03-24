@@ -24,20 +24,15 @@ const CarCard = ({ car, type }: CarCardProps) => {
         }
     };
     const accountType = window.localStorage.getItem('accountType');
-    const [currentValueInEth, setCurrentValueInEth] = useState<string>('0');
+    const [currentValueInEth, setCurrentValueInEth] = useState<Number>(0);
     const currentEtherPrice = useCurrentEtherPrice() || 3400;
 
     useEffect(() => {
         const calculateValueInEth = () => {
-            const valueInEth = (Number(car.askingPrice) / currentEtherPrice).toFixed(7);
+            const valueInEth = (Number(car.askingPrice) / Number(currentEtherPrice));
             setCurrentValueInEth(valueInEth);
         }
-
         calculateValueInEth();
-
-        const intervalId = setInterval(calculateValueInEth, 5000);
-
-        return () => clearInterval(intervalId);
     }, [car.askingPrice, currentEtherPrice]);
 
     return (
@@ -50,7 +45,7 @@ const CarCard = ({ car, type }: CarCardProps) => {
                 <p className="text-xs text-gray-600 mb-2">Mileage: {String(car.mileage)} km</p>
             </div>
             <div className="last-row flex justify-between w-full px-4 pb-6 items-center">
-                <p className="text-xl font-bold text-sky-700"><span>${String(car.askingPrice)}</span> <span className='text-black font-extrabold'>~</span> <span className='text-blue-700'>{currentValueInEth} <FontAwesomeIcon icon={faEthereum} /></span></p>
+                <p className="text-xl font-bold text-sky-700"><span>${String(car.askingPrice)}</span> <span className='text-black font-extrabold'>~</span> <span className='text-blue-700'><FontAwesomeIcon icon={faEthereum} /></span> {Number(currentValueInEth).toFixed(6)}</p>
                 {type === 'userpage' && 
                     <div className="ctas">
                         <Button text="APK Maintenance" type="button" onClick={handleAPKMaintenance} />

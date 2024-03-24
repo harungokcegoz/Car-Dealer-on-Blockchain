@@ -6,22 +6,22 @@ const apiUrls = {
 }
 
 const useCurrentEtherPrice = () => {
-    const [ethPrice, setEthPrice] = useState<number | null>(null);
+    const [ethPrice, setEthPrice] = useState<string | null>(null);
 
     useEffect(() => {
         const fetchPrice = () => {
             fetch(apiUrls.coinbase)
                 .then(response => response.json())
-                .then(data => setEthPrice(data.USD));
+                .then(data => setEthPrice(Number(data.data.rates.BUSD).toFixed(2)));
         }
 
-        fetchPrice(); // Fetch the price immediately
+        fetchPrice();
 
-        const intervalId = setInterval(fetchPrice, 100);
+        const intervalId = setInterval(fetchPrice, 1000);
 
         return () => clearInterval(intervalId);
     }, []);
-
+    
     return ethPrice;
 }
 
