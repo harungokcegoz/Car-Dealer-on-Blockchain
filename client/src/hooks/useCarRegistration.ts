@@ -1,14 +1,15 @@
 import { useEffect, useState } from 'react';
 import { initWeb3, callContractMethod } from '../utils/CarContract';
+import { dealerAccount } from '@/utils/FetchKeys';
 
 type FormData = {
     licensePlate: string;
-    chassisNumber: string;
     brand: string;
     color: string;
     mileage: string;
     askingPrice: string;
     imageUrl: string;
+    dealerAddress: string;
 }
 
 const useCarRegistration = () => {
@@ -34,12 +35,12 @@ const useCarRegistration = () => {
             await callContractMethod(
                 'registerCar',
                 formData.licensePlate,
-                formData.chassisNumber,
                 formData.brand,
                 formData.imageUrl,
                 formData.color,
                 mileage,
-                askingPrice
+                askingPrice,
+                dealerAccount
             );
 
             alert("Car registered successfully!");

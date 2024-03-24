@@ -8,7 +8,7 @@ type CarCardProps = {
     type: string;
 }
 const CarCard = ({ car, type }: CarCardProps) => {
-    const currentAccount = localStorage.getItem('currentAccount');
+    const currentAccount = window.localStorage.getItem('currentAccount');
     const handleAPKMaintenance = async () => {
         try {
             const uintCarId = BigInt(car.carId);
@@ -20,7 +20,7 @@ const CarCard = ({ car, type }: CarCardProps) => {
         }
     };
 
-    const accountType = localStorage.getItem('accountType');
+    const accountType = window.localStorage.getItem('accountType');
 
     return (
         <div className="shadow-md rounded overflow-hidden">
@@ -29,7 +29,6 @@ const CarCard = ({ car, type }: CarCardProps) => {
                 <h3 className="text-xl font-bold mb-2">{car.brand}</h3>
                 <p className="text-sm text-gray-600 mb-2 uppercase font-bold">{car.licensePlate} - {car.color}</p>
                 <p className="text-xs text-gray-600 mb-2 mt-5">Seller: {car.owner}</p>
-                <p className="text-xs text-gray-600 mb-2">Chasis Number: {car.chassisNumber}</p>
                 <p className="text-xs text-gray-600 mb-2">Mileage: {String(car.mileage)} km</p>
             </div>
             <div className="last-row flex justify-between w-full px-4 pb-6 items-center">

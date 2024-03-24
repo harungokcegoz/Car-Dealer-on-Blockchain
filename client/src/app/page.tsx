@@ -14,12 +14,12 @@ const accountTypes: { [key: string]: string } = {
 const Homepage = () => {
     const { initialized, cars, loading } = useFetchCars('all'); 
     const [accountType, setAccountType] = useState<string>('');
-    const account = localStorage.getItem('currentAccount');
+    const account = window.localStorage.getItem('currentAccount');
     
     useEffect(() => {
         if (account) {
             setAccountType(accountTypes[account]);
-            localStorage.setItem('accountType', accountTypes[account]);
+            window.localStorage.setItem('accountType', accountTypes[account]);
         }
     }, [account, accountType]);
     return (

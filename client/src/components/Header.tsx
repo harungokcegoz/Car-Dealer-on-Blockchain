@@ -1,7 +1,7 @@
 "use client";
 import Link from 'next/link';
 const Header = () => {
-    const accountType = localStorage.getItem('accountType');
+    const accountType = window.localStorage.getItem('accountType');
 
     let link1, link2, text1, text2;
 

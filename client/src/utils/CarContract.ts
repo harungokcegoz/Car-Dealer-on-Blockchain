@@ -51,7 +51,7 @@ export const initWeb3 = async () => {
 
 export const getCurrentAccount = async () => {
     const accounts = await web3.eth.getAccounts();
-    localStorage.setItem('currentAccount', String(accounts[0]));
+    window.localStorage.setItem('currentAccount', String(accounts[0]));
     return String(accounts[0]);
 }
 
@@ -67,19 +67,6 @@ export const callContractMethod = async (methodName: string, ...args: any[]) => 
         throw error;
     }
 }
-
-const updateCarListings = (carId: number) => {
-    contract.methods.getCar(carId).call((error: any, carDetails: any) => {
-        if (error) {
-            console.error('Error fetching car details:', error);
-        } else {
-            const { licensePlate, chassisNumber, brand, carType, color, mileage, owner, askingPrice, forSale } = carDetails;
-
-            console.log('Newly registered car details:', carDetails);
-
-        }
-    });
-};
 
 
 export default contract;

@@ -92,7 +92,7 @@ module.exports = {
       // docker: true,        // Use "0.5.1" you've installed locally with docker (default: false)
       settings: {
         optimizer: {
-          runs: 200,
+          runs: 300,
           enabled: true
         }
       }

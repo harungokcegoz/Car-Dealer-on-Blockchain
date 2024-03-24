@@ -10,7 +10,8 @@ const APKConfirmationsPage = () => {
     const { initialized, requestedCars, loading } = useFetchApkRequests();
     const [newMileages, setNewMileages] = useState<{ [key: number]: number }>({});
     const [requestedCarsArray, setRequestedCars] = useState<Car[]>([]);
-    
+
+
     useEffect(() => {
         setRequestedCars(requestedCars);
     }, [requestedCars]);
@@ -26,13 +27,13 @@ const APKConfirmationsPage = () => {
                 console.error('Please enter a valid mileage');
                 return;
             }
-            await callContractMethod('confirmMileageUpdate', carId, newMileage);
-            // Remove the confirmed car from the list
-            setRequestedCars(requestedCarsArray.filter(car => car.carId !== carId));
-            // Reset the new mileage for the car
-            const updatedMileages = { ...newMileages };
-            delete updatedMileages[carId];
-            setNewMileages(updatedMileages);
+            const bigCarId = BigInt(carId);
+            const bigNewMileage = BigInt(newMileage);
+          
+            await callContractMethod('confirmMileageUpdate', bigCarId, bigNewMileage);
+            alert('Mileage updated successfully');
+            window.location.reload();
+          
         } catch (error) {
             console.error("Error confirming mileage update:", error);
         }
@@ -57,9 +58,6 @@ const APKConfirmationsPage = () => {
                                 <p className="text-md font-bold">License Plate</p>
                             </div>
                             <div className="flex-1">
-                                <p className="text-md font-bold">Chassis Number</p>
-                            </div>
-                            <div className="flex-1">
                                 <p className="text-md font-bold">Current Mileage</p>
                             </div>
                             <div className="flex-1">
@@ -79,9 +77,6 @@ const APKConfirmationsPage = () => {
                                     <p>{car.licensePlate}</p>
                                 </div>
                                 <div className="flex-1">
-                                    <p>{car.chassisNumber}</p>
-                                </div>
-                                <div className="flex-1">
                                     <p>{String(car.mileage)} km</p>
                                 </div>
                                 <div className="flex-1">
@@ -95,7 +90,7 @@ const APKConfirmationsPage = () => {
                                 </div>
                                 <div className="flex-1">
                                     <Button
-                                        text="Confirm"
+                                        text="Update"
                                         onClick={() => confirmMileageUpdate(car.carId)}
                                         type='submit'
                                     />

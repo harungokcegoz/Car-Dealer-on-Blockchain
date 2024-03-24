@@ -7,7 +7,6 @@ import { nftStorageApiKey } from '../../utils/FetchKeys';
 const CarRegistrationForm = () => {
     const [formData, setFormData] = useState({
         licensePlate: '',
-        chassisNumber: '',
         brand: '',
         color: '',
         mileage: '',
@@ -58,7 +57,6 @@ const CarRegistrationForm = () => {
         if (success) {
             setFormData({
                 licensePlate: '',
-                chassisNumber: '',
                 brand: '',
                 color: '',
                 mileage: '',
@@ -83,17 +81,6 @@ const CarRegistrationForm = () => {
                                 value={formData.licensePlate} 
                                 onChange={handleChange} 
                                 placeholder="License Plate" />
-                        </div>
-                        {/* Chassis Number */}
-                        <div className="mb-8 w-1/2 pr-4">
-                            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="chassisNumber">Chassis Number</label>
-                            <input className="shadow appearance-none border rounded w-full p-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-xs" 
-                                id="chassisNumber" 
-                                type="text" 
-                                name="chassisNumber" 
-                                value={formData.chassisNumber} 
-                                onChange={handleChange} 
-                                placeholder="Chassis Number" />
                         </div>
                         {/* Brand */}
                         <div className="mb-8 w-1/2 pr-4">

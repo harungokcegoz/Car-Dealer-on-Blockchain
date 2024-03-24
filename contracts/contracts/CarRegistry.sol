@@ -6,16 +6,14 @@ contract CarRegistry {
     struct Car {
         uint256 carId;
         string licensePlate;
-        string chassisNumber;
         string brand;
         string imageUrl;
         string color;
         uint256 mileage;
         address owner;
         uint256 askingPrice;
-        bool forSale;
-        address dealer;
         bool mileageUpdateRequested;
+        address dealer;
     }
 
     mapping(uint256 => Car) public cars;
@@ -44,26 +42,24 @@ contract CarRegistry {
 
    function registerCar(
         string calldata _licensePlate,
-        string calldata _chassisNumber,
         string calldata _brand,
         string calldata _imageUrl,
         string calldata _color,
         uint256 _mileage,
-        uint256 _askingPrice
+        uint256 _askingPrice,
+        address _dealer
     ) external {
         cars[carCount] = Car({
             carId: carCount,
             licensePlate: _licensePlate,
-            chassisNumber: _chassisNumber,
             brand: _brand,
             imageUrl: _imageUrl,
             color: _color,
             mileage: _mileage,
             owner: msg.sender,
             askingPrice: _askingPrice,
-            forSale: true,
             mileageUpdateRequested: false,
-            dealer: address(0)
+            dealer: _dealer
         });
 
         emit CarRegistered(carCount, msg.sender);
@@ -82,23 +78,8 @@ contract CarRegistry {
 
         cars[_carId].mileage = _newMileage;
         cars[_carId].mileageUpdateRequested = false;
-        cars[_carId].dealer = msg.sender;
         emit MileageUpdated(_carId, _newMileage);
     }
-
-    // function updateMileage(uint256 _carId, uint256 _mileage) external onlyCarOwner(_carId) {
-    //     require(_mileage > cars[_carId].mileage, "New mileage must be greater than current mileage");
-
-    //     cars[_carId].mileage = _mileage;
-    //     emit MileageUpdated(_carId, _mileage);
-    // }
-
-    // function listCarForSale(uint256 _carId, uint256 _askingPrice) external onlyCarOwner(_carId) {
-    //     cars[_carId].forSale = true;
-    //     cars[_carId].askingPrice = _askingPrice;
-
-    //     emit CarListedForSale(_carId, _askingPrice);
-    // }
 
     // function buyCar(uint256 _carId) external payable {
     //     require(cars[_carId].forSale, "Car is not listed for sale");
@@ -112,32 +93,6 @@ contract CarRegistry {
 
     //     emit CarSold(_carId, oldOwner, msg.sender, msg.value);
     // }
-
-
-    function getCar(uint256 _carId) external view returns (
-        string memory licensePlate,
-        string memory chassisNumber,
-        string memory brand,
-        string memory imageUrl,
-        string memory color,
-        uint256 mileage,
-        address owner,
-        uint256 askingPrice,
-        bool forSale
-    ) {
-        Car memory car = cars[_carId];
-        return (
-            car.licensePlate,
-            car.chassisNumber,
-            car.brand,
-            car.imageUrl,
-            car.color,
-            car.mileage,
-            car.owner,
-            car.askingPrice,
-            car.forSale
-        );
-    }
 
     // function addOwner(address _newOwner) external onlyOwner {
     //     owners[_newOwner] = true;
