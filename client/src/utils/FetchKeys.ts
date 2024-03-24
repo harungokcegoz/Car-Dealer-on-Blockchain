@@ -1,7 +1,7 @@
 const sellerAccount = "0x1036579cb3F48894dc65D595c53C0dfabFF331C4";
 const buyerAccount = "0x452444Abffd360057901487bCA7dF6dA0B55616d";
 const dealerAccount = "0xa95c895Ad68023B9b51001517D6685B6fe1099dD";
-const nftStorageApiKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDFGQzkwNjBCYkY1NjAzNEIxNzgyNTk0NTkzNUY4MDQyMzMxNWRBOTEiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTcxMTE5NDM5MzIwMSwibmFtZSI6ImRlYWxlciJ9.90hFugZOVbYjIfml5hLOBzdkNZ2scvKMqllWlH1Uqzg";
+const nftStorageApiKey = "";
 
 
 export { sellerAccount, buyerAccount, dealerAccount, nftStorageApiKey };
