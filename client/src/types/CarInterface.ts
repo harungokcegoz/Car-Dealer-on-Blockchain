@@ -8,4 +8,5 @@ export type Car = {
     owner: string;
     askingPrice: number;
     forSale: boolean;
+    purchaseRequested: boolean;
 }

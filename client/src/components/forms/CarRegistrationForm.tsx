@@ -51,7 +51,8 @@ const CarRegistrationForm = () => {
         
         const success = await useCarRegistrationHook.registerCar({
             ...formData,
-            imageUrl
+            imageUrl,
+            dealerAddress: ''
         });
 
         if (success) {

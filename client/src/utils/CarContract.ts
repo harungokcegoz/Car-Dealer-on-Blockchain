@@ -26,7 +26,6 @@ export const initWeb3 = async () => {
 
 export const getCurrentAccount = async () => {
     const accounts = await web3.eth.getAccounts();
-    window.localStorage.setItem('currentAccount', String(accounts[0]));
     return String(accounts[0]);
 }
 

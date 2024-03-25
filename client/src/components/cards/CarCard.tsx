@@ -2,17 +2,33 @@ import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { Car } from '../../types/CarInterface';
 import Button from '../atoms/Button';
+import useBuyCar from '@/hooks/useBuyCar';
 import { callContractMethod } from '../../utils/CarContract';
 import useCurrentEtherPrice from '@/hooks/useCurrentEtherPrice';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEthereum } from "@fortawesome/free-brands-svg-icons";
+import useRetrieveAccount from '@/hooks/useRetrieveAccount';
+import useRetrieveAccountType from '@/hooks/useRetrieveAccountType';
 
 type CarCardProps = {
     car: Car;
     type: string;
 }
 const CarCard = ({ car, type }: CarCardProps) => {
-    const currentAccount = window.localStorage.getItem('currentAccount');
+    const currentAccount = useRetrieveAccount();
+    const { buyCar } = useBuyCar();
+    const accountType = useRetrieveAccountType();
+    const [currentValueInEth, setCurrentValueInEth] = useState<Number>(0);
+    const currentEtherPrice = useCurrentEtherPrice() || 3400;
+ 
+    useEffect(() => {
+        const calculateValueInEth = () => {
+            const valueInEth = (Number(car.askingPrice) / Number(currentEtherPrice));
+            setCurrentValueInEth(valueInEth);
+        }
+        calculateValueInEth();
+    }, [car.askingPrice, currentEtherPrice]);
+
     const handleAPKMaintenance = async () => {
         try {
             const uintCarId = BigInt(car.carId);
@@ -23,17 +39,10 @@ const CarCard = ({ car, type }: CarCardProps) => {
             alert('Error requesting mileage update');
         }
     };
-    const accountType = window.localStorage.getItem('accountType');
-    const [currentValueInEth, setCurrentValueInEth] = useState<Number>(0);
-    const currentEtherPrice = useCurrentEtherPrice() || 3400;
 
-    useEffect(() => {
-        const calculateValueInEth = () => {
-            const valueInEth = (Number(car.askingPrice) / Number(currentEtherPrice));
-            setCurrentValueInEth(valueInEth);
-        }
-        calculateValueInEth();
-    }, [car.askingPrice, currentEtherPrice]);
+    const handleBuyButtonClick = () => {
+        buyCar(car.carId);
+    };
 
     return (
         <div className="shadow-md rounded overflow-hidden">
@@ -48,7 +57,11 @@ const CarCard = ({ car, type }: CarCardProps) => {
                 <p className="text-xl font-bold text-sky-700">
                     <span>${String(car.askingPrice)}</span> 
                     <span className='text-black font-extrabold'> ~ </span> 
-                    <span className='text-blue-700'><FontAwesomeIcon icon={faEthereum} /></span> {Number(currentValueInEth).toFixed(6)}</p>
+                    <span className='text-blue-700'>
+                        <FontAwesomeIcon icon={faEthereum} className='mr-1'/>
+                        {Number(currentValueInEth).toFixed(6)}
+                    </span> 
+                </p>
                 {type === 'userpage' && 
                     <div className="ctas">
                         <Button text="APK Maintenance" type="button" onClick={handleAPKMaintenance} />
@@ -56,7 +69,12 @@ const CarCard = ({ car, type }: CarCardProps) => {
                 }
                 {type === 'homepage' &&
                     <div className="ctas">
-                        <Button text={car.forSale ? "Buy" : "Sold!"} type="button" disabled={currentAccount === car.owner || accountType === 'Dealer' || !car.forSale }/>
+                        <Button 
+                            text={car.purchaseRequested ? "Reserved" : (car.forSale ? "Buy" : "Sold!")}
+                            type="button" 
+                            disabled={currentAccount === car.owner || accountType === 'Dealer' || !car.forSale || car.purchaseRequested} 
+                            onClick={car.forSale ? handleBuyButtonClick : () => {}}
+                        />
                     </div>
                 }
             </div>

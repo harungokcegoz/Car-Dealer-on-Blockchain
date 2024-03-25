@@ -15,17 +15,21 @@ contract CarRegistry {
         bool mileageUpdateRequested;
         address dealer;
         bool forSale;
+        bool purchaseRequested;
     }
 
     mapping(uint256 => Car) public cars;
-    uint256 public carCount;
     mapping(address => bool) public owners;
+    mapping(uint256 => address) public carBuyers;
+    uint256 public carCount;
 
     event CarRegistered(uint256 indexed carId, address indexed owner);
     event MileageUpdated(uint256 indexed carId, uint256 mileage);
     event CarListedForSale(uint256 indexed carId, uint256 askingPrice);
     event CarSold(uint256 indexed carId, address indexed oldOwner, address indexed newOwner, uint256 sellingPrice);
     event MileageUpdateRequested(uint256 indexed carId, address indexed requester);
+    event PurchaseRequested(uint256 indexed carId, address indexed requester);
+    event PurchaseConfirmed(uint256 indexed carId, address indexed buyer);
 
     modifier onlyOwner() {
         require(owners[msg.sender], "Only the contract owner can perform this action");
@@ -37,11 +41,16 @@ contract CarRegistry {
         _;
     }
 
+    modifier onlyDealer(uint256 _carId) {
+        require(cars[_carId].dealer == msg.sender, "Only the dealer can perform this action");
+        _;
+    }
+
     constructor() public {
         owners[msg.sender] = true;
     }
 
-   function registerCar(
+    function registerCar(
         string calldata _licensePlate,
         string calldata _brand,
         string calldata _imageUrl,
@@ -61,21 +70,21 @@ contract CarRegistry {
             askingPrice: _askingPrice,
             mileageUpdateRequested: false,
             dealer: _dealer,
-            forSale: true
+            forSale: true,
+            purchaseRequested: false
         });
 
         emit CarRegistered(carCount, msg.sender);
         carCount++;
     }
 
-    function requestMileageUpdate(uint256 _carId) external {
+    function requestMileageUpdate(uint256 _carId) external onlyCarOwner(_carId) {
         cars[_carId].mileageUpdateRequested = true;
         emit MileageUpdateRequested(_carId, msg.sender);
     }
 
-    function confirmMileageUpdate(uint256 _carId, uint256 _newMileage) external {
+    function confirmMileageUpdate(uint256 _carId, uint256 _newMileage) external onlyDealer(_carId) {
         require(cars[_carId].mileageUpdateRequested, "Mileage update not requested");
-        require(cars[_carId].dealer == msg.sender, "Only the dealer can confirm the mileage update");
         require(_newMileage > cars[_carId].mileage, "New mileage must be greater than current mileage");
 
         cars[_carId].mileage = _newMileage;
@@ -83,27 +92,36 @@ contract CarRegistry {
         emit MileageUpdated(_carId, _newMileage);
     }
 
-    // function buyCar(uint256 _carId) external payable {
-    //     require(cars[_carId].forSale, "Car is not listed for sale");
-    //     require(msg.value >= cars[_carId].askingPrice, "Insufficient payment");
+    function requestPurchase(uint256 _carId) external payable {
+        require(cars[_carId].forSale, "Car is not listed for sale");
 
-    //     address payable oldOwner = address(uint160(cars[_carId].owner));
-    //     oldOwner.transfer(msg.value);
+        cars[_carId].purchaseRequested = true;
+        carBuyers[_carId] = msg.sender;
 
-    //     cars[_carId].owner = msg.sender;
-    //     cars[_carId].forSale = false;
+        emit PurchaseRequested(_carId, msg.sender);
+    }
 
-    //     emit CarSold(_carId, oldOwner, msg.sender, msg.value);
-    // }
+function confirmPurchase(uint256 _carId, uint256 _currentEtherPrice) external onlyDealer(_carId) {
+    require(cars[_carId].purchaseRequested, "No purchase request pending");
+    require(carBuyers[_carId] != address(0), "No buyer for this car");
 
-    // function addOwner(address _newOwner) external onlyOwner {
-    //     owners[_newOwner] = true;
-    // }
+    uint256 transferAmountInEther = cars[_carId].askingPrice / _currentEtherPrice;
 
-    // function removeOwner(address _owner) external onlyOwner {
-    //     require(_owner != msg.sender, "Cannot remove yourself as an owner");
-    //     owners[_owner] = false;
-    // }
+    require(address(carBuyers[_carId]).balance >= transferAmountInEther, "Insufficient balance for transfer");
+
+    address payable oldOwner = payable(cars[_carId].owner);
+    oldOwner.transfer(transferAmountInEther);
+
+    cars[_carId].owner = carBuyers[_carId];
+    cars[_carId].forSale = false;
+    cars[_carId].purchaseRequested = false;
+
+    emit CarSold(_carId, oldOwner, carBuyers[_carId], cars[_carId].askingPrice);
+    emit PurchaseConfirmed(_carId, carBuyers[_carId]);
+
+    delete carBuyers[_carId];
+}
+
 
     function getCarsCount() external view returns (uint256) {
         return carCount;
@@ -140,7 +158,6 @@ contract CarRegistry {
             }
         }
 
-        // Trim the array to remove any empty slots
         Car[] memory result = new Car[](count);
         for (uint256 j = 0; j < count; j++) {
             result[j] = requestedCars[j];
@@ -149,5 +166,22 @@ contract CarRegistry {
         return result;
     }
 
+    function getPurchaseRequestedCars() external view returns (Car[] memory) {
+        Car[] memory requestedCars = new Car[](carCount);
+        uint256 count = 0;
 
+        for (uint256 i = 0; i < carCount; i++) {
+            if (cars[i].purchaseRequested) {
+                requestedCars[count] = cars[i];
+                count++;
+            }
+        }
+
+        Car[] memory result = new Car[](count);
+        for (uint256 j = 0; j < count; j++) {
+            result[j] = requestedCars[j];
+        }
+
+        return result;
+    }
 }

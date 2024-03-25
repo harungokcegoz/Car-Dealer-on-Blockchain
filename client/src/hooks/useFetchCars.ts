@@ -10,7 +10,7 @@ const useFetchCars = (fetchType: UseFetchCarsProps) => {
     const [cars, setCars] = useState<Car[]>([]);
     const [accountAddress, setAccountAddress] = useState('');
     const [loading, setLoading] = useState(false);
-
+    
     useEffect(() => {
         const initializeWeb3 = async () => {
             await initWeb3();
