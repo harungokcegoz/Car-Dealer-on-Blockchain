@@ -130,7 +130,7 @@ const CarRegistrationForm = () => {
                         <div className="last-row flex justify-between w-full pr-4">
                             {/* Image */}
                             <div className="mb-8">
-                                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="askingPrice">Car Image Link</label>
+                                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="askingPrice">Car Images</label>
                                 <input type="file" name="file" onChange={handleFileChange} className='text-xs py-3'/>
                             </div>
                             {/* Submit Button */}

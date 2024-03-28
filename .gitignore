@@ -1,2 +1,3 @@
 
 client/src/utils/FetchKeys.ts
+contracts/build/contracts/CarRegistry.json

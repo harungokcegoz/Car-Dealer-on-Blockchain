@@ -3,5 +3,4 @@ const buyerAccount = "0x452444Abffd360057901487bCA7dF6dA0B55616d";
 const dealerAccount = "0xa95c895Ad68023B9b51001517D6685B6fe1099dD";
 const nftStorageApiKey = "";
 
-
 export { sellerAccount, buyerAccount, dealerAccount, nftStorageApiKey };

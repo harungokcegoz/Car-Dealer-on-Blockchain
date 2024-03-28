@@ -2,7 +2,7 @@ import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { Car } from '../../types/CarInterface';
 import Button from '../atoms/Button';
-import useBuyCar from '@/hooks/useBuyCar';
+import useRequestCarPurchase from '@/hooks/useRequestCarPurchase';
 import { callContractMethod } from '../../utils/CarContract';
 import useCurrentEtherPrice from '@/hooks/useCurrentEtherPrice';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -16,8 +16,8 @@ type CarCardProps = {
 }
 const CarCard = ({ car, type }: CarCardProps) => {
     const currentAccount = useRetrieveAccount();
-    const { buyCar } = useBuyCar();
     const accountType = useRetrieveAccountType();
+    const { requestPurchase } = useRequestCarPurchase();
     const [currentValueInEth, setCurrentValueInEth] = useState<Number>(0);
     const currentEtherPrice = useCurrentEtherPrice() || 3400;
  
@@ -41,7 +41,8 @@ const CarCard = ({ car, type }: CarCardProps) => {
     };
 
     const handleBuyButtonClick = () => {
-        buyCar(car.carId);
+        requestPurchase(car.carId);
+        // window.location.reload();
     };
 
     return (

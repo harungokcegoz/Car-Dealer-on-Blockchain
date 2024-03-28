@@ -28,13 +28,8 @@ contract CarRegistry {
     event CarListedForSale(uint256 indexed carId, uint256 askingPrice);
     event CarSold(uint256 indexed carId, address indexed oldOwner, address indexed newOwner, uint256 sellingPrice);
     event MileageUpdateRequested(uint256 indexed carId, address indexed requester);
-    event PurchaseRequested(uint256 indexed carId, address indexed requester);
-    event PurchaseConfirmed(uint256 indexed carId, address indexed buyer);
-
-    modifier onlyOwner() {
-        require(owners[msg.sender], "Only the contract owner can perform this action");
-        _;
-    }
+    event PurchaseRequested(uint256 indexed carId, address indexed buyer, uint256 toBetransferredEth);
+    event PurchaseConfirmed(uint256 indexed carId, address indexed buyer, uint256 transferedEthOldOwner);
 
     modifier onlyCarOwner(uint256 _carId) {
         require(cars[_carId].owner == msg.sender, "Only the owner can perform this action");
@@ -46,8 +41,8 @@ contract CarRegistry {
         _;
     }
 
-    constructor() public {
-        owners[msg.sender] = true;
+    constructor() payable {
+        // owners[msg.sender] = true;
     }
 
     function registerCar(
@@ -92,36 +87,44 @@ contract CarRegistry {
         emit MileageUpdated(_carId, _newMileage);
     }
 
-    function requestPurchase(uint256 _carId) external payable {
-        require(cars[_carId].forSale, "Car is not listed for sale");
+    function requestPurchase(uint256 _carId, uint256 _currentEtherPrice) external payable {
+        address payable buyer = payable(msg.sender);
+        // require(cars[_carId].forSale, "Car is not listed for sale");
+        // require(buyer.balance >= transferAmountInEther, "Insufficient balance for transfer");
+        
+        uint256 transferAmountInEther = cars[_carId].askingPrice / _currentEtherPrice;
+        // address payable potentialBuyer = payable(_buyer);
+        // potentialBuyer.transfer(transferAmountInEther);
+        buyer.transfer(transferAmountInEther);    
+        // sendViaCall(buyer);
+    
 
         cars[_carId].purchaseRequested = true;
         carBuyers[_carId] = msg.sender;
 
-        emit PurchaseRequested(_carId, msg.sender);
+        emit PurchaseRequested(_carId, msg.sender, transferAmountInEther);
     }
 
-function confirmPurchase(uint256 _carId, uint256 _currentEtherPrice) external onlyDealer(_carId) {
-    require(cars[_carId].purchaseRequested, "No purchase request pending");
-    require(carBuyers[_carId] != address(0), "No buyer for this car");
+    function confirmPurchase(uint256 _carId, uint256 _currentEtherPrice) external payable onlyDealer(_carId) {
+        require(cars[_carId].purchaseRequested, "No purchase request pending");
+        require(carBuyers[_carId] != address(0), "No buyer for this car");
 
-    uint256 transferAmountInEther = cars[_carId].askingPrice / _currentEtherPrice;
+        uint256 transferAmountInEther = cars[_carId].askingPrice / _currentEtherPrice;
 
-    require(address(carBuyers[_carId]).balance >= transferAmountInEther, "Insufficient balance for transfer");
+        require(address(carBuyers[_carId]).balance >= transferAmountInEther, "Insufficient balance for transfer");
 
-    address payable oldOwner = payable(cars[_carId].owner);
-    oldOwner.transfer(transferAmountInEther);
+        address payable owner = payable(cars[_carId].owner);
+        owner.transfer(transferAmountInEther);
 
-    cars[_carId].owner = carBuyers[_carId];
-    cars[_carId].forSale = false;
-    cars[_carId].purchaseRequested = false;
+        cars[_carId].owner = carBuyers[_carId];
+        cars[_carId].forSale = false;
+        cars[_carId].purchaseRequested = false;
 
-    emit CarSold(_carId, oldOwner, carBuyers[_carId], cars[_carId].askingPrice);
-    emit PurchaseConfirmed(_carId, carBuyers[_carId]);
+        emit CarSold(_carId, cars[_carId].owner, carBuyers[_carId], cars[_carId].askingPrice);
+        emit PurchaseConfirmed(_carId, carBuyers[_carId], transferAmountInEther);
 
-    delete carBuyers[_carId];
-}
-
+        delete carBuyers[_carId];
+    }
 
     function getCarsCount() external view returns (uint256) {
         return carCount;
@@ -183,5 +186,10 @@ function confirmPurchase(uint256 _carId, uint256 _currentEtherPrice) external on
         }
 
         return result;
+    }
+
+    function sendViaCall(address payable _to) public payable {
+        (bool sent, bytes memory data) = _to.call{value: msg.value}("");
+        require(sent, "Failed to send Ether");
     }
 }
