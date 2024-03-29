@@ -1,21 +1,25 @@
 import { useState } from 'react';
-import { callContractMethod } from '../utils/CarContract';
+import { requestPurchaseFromContract } from '../utils/CarContract';
+import useCurrentEtherPrice from './useCurrentEtherPrice';
 
 const useRequestCarPurchase = () => {
     const [buyingInProgress, setBuyingInProgress] = useState(false);
-    const currentEtherPrice = 3400;
+    const currentEtherPrice: number = Number(useCurrentEtherPrice()) || 3400;
     
-    const requestPurchase = async (carId: number) =>
+    const requestPurchase = async (carId: number, askingPrice: number) =>
     { 
         setBuyingInProgress(true);
     
-        const bigCarId = BigInt(carId);
-        const bigCurrentEtherPrice = BigInt(currentEtherPrice);
-        await callContractMethod('requestPurchase', bigCarId, bigCurrentEtherPrice);
-        alert('Purchase request sent successfully');
-      
+        const askingPriceInEther = askingPrice / currentEtherPrice;
+        console.log("askingPriceInEther", askingPriceInEther.toFixed(0));
+        try {
+            await requestPurchaseFromContract(carId, askingPriceInEther, currentEtherPrice);
+            alert('Purchase request sent successfully');
+        } catch (error) {
+            console.error("Error sending purchase request:", error);
+            alert('Error sending purchase request');
+        }
         setBuyingInProgress(false);
-        
     };
 
     return { requestPurchase, buyingInProgress };

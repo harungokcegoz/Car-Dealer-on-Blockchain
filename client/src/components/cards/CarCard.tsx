@@ -41,7 +41,7 @@ const CarCard = ({ car, type }: CarCardProps) => {
     };
 
     const handleBuyButtonClick = () => {
-        requestPurchase(car.carId);
+        requestPurchase(car.carId, Number(car.askingPrice));
         // window.location.reload();
     };
 

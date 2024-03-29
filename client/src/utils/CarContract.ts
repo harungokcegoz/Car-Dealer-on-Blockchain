@@ -42,5 +42,22 @@ export const callContractMethod = async (methodName: string, ...args: any[]) => 
     }
 }
 
+export const requestPurchaseFromContract = async (carId: number, askingPriceInEther: number, currentEtherPrice: number) => {
+    try {
+        if (!askingPriceInEther) {
+            return;
+        }
+        initWeb3();
+        const weiValue = await web3.utils.toWei(askingPriceInEther, "ether");
+        await contract.methods.requestPurchase(carId, currentEtherPrice.toFixed(0)).send({
+            from: await getCurrentAccount(),
+            value: weiValue
+        });
+    } catch (error) {
+        console.error("Error depositing money:", error);
+        throw error;
+    }
+}
+
 
 export default contract;
