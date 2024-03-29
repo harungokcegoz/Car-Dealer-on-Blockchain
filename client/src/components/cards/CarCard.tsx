@@ -65,7 +65,11 @@ const CarCard = ({ car, type }: CarCardProps) => {
                 </p>
                 {type === 'userpage' && 
                     <div className="ctas">
-                        <Button text="APK Maintenance" type="button" onClick={handleAPKMaintenance} />
+                        <Button 
+                            text={car.mileageUpdateRequested ? "APK request is pending" : "Request APK"} 
+                            type="button" 
+                            onClick={handleAPKMaintenance} 
+                        />
                     </div>
                 }
                 {type === 'homepage' &&

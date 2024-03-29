@@ -9,4 +9,5 @@ export type Car = {
     askingPrice: number;
     forSale: boolean;
     purchaseRequested: boolean;
+    mileageUpdateRequested: boolean;
 }

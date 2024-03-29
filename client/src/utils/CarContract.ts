@@ -74,5 +74,20 @@ export const confirmPurchaseFromContract = async (carId: number, currentEtherPri
     }
 }
 
+export const confirmMileageFromContract = async (carId: number, newMileage: number) => {
+    try {
+        if (!newMileage) {
+            return;
+        }
+        initWeb3();
+        await contract.methods.confirmPurchase(carId, newMileage).send({
+            from: await getCurrentAccount()
+        });
+    } catch (error) {
+        console.error("Error confirming the new mileage:", error);
+        throw error;
+    }
+}
+
 
 export default contract;
