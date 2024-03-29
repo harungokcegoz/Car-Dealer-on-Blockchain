@@ -83,11 +83,26 @@ export const confirmMileageFromContract = async (carId: number, newMileage: numb
       return;
     }
     initWeb3();
-    await contract.methods.confirmPurchase(carId, newMileage).send({
+    await contract.methods.confirmMileageUpdate(carId, newMileage).send({
       from: await getCurrentAccount(),
     });
   } catch (error) {
     console.error('Error confirming the new mileage:', error);
+    throw error;
+  }
+};
+
+export const requestMileageUpdateFromContract = async (carId: number) => {
+  try {
+    if (!carId) {
+      return;
+    }
+    initWeb3();
+    await contract.methods.requestMileageUpdate(carId).send({
+      from: await getCurrentAccount(),
+    });
+  } catch (error) {
+    console.error('Error requesting APK:', error);
     throw error;
   }
 };

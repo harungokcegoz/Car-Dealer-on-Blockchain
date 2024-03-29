@@ -36,13 +36,12 @@ const APKConfirmationsPage = () => {
         console.error('Please enter a valid mileage');
         return;
       }
-
       await confirmMileageFromContract(carId, newMileage);
       alert('Mileage updated successfully');
     } catch (error) {
       console.error('Error confirming mileage update:', error);
     }
-    window.location.href = '/';
+    window.location.reload();
   };
 
   return loading ? (

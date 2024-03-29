@@ -5,7 +5,7 @@ import { faEthereum } from '@fortawesome/free-brands-svg-icons';
 import { Car } from '../../types/CarInterface';
 import Button from '../atoms/Button';
 import useRequestCarPurchase from '../../hooks/useRequestCarPurchase';
-import { callContractMethod } from '../../utils/CarContract';
+import { requestMileageUpdateFromContract } from '../../utils/CarContract';
 import useCurrentEtherPrice from '../../hooks/useCurrentEtherPrice';
 import useRetrieveAccount from '../../hooks/useRetrieveAccount';
 import useRetrieveAccountType from '../../hooks/useRetrieveAccountType';
@@ -31,13 +31,13 @@ const CarCard = ({ car, type }: CarCardProps) => {
 
   const handleAPKMaintenance = async () => {
     try {
-      const uintCarId = BigInt(car.carId);
-      await callContractMethod('requestMileageUpdate', uintCarId);
+      await requestMileageUpdateFromContract(car.carId);
       alert('Mileage update requested successfully');
     } catch (error) {
       console.error('Error requesting mileage update:', error);
       alert('Error requesting mileage update');
     }
+    window.location.reload();
   };
 
   const handleBuyButtonClick = () => {
@@ -75,9 +75,10 @@ const CarCard = ({ car, type }: CarCardProps) => {
         {type === 'userpage' && (
           <div className="ctas">
             <Button
-              text={car.mileageUpdateRequested ? 'APK request is pending' : 'Request APK'}
+              text={car.mileageUpdateRequested ? 'Pending...' : 'Request APK'}
               type="button"
               onClick={handleAPKMaintenance}
+              disabled={car.mileageUpdateRequested}
             />
           </div>
         )}
