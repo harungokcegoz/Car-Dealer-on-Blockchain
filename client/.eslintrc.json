@@ -1,20 +1,153 @@
 {
-  "parser": "@typescript-eslint/parser",
-  "plugins": ["@typescript-eslint", "react", "react-hooks", "prettier"],
   "extends": [
-    "eslint:recommended",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:react/recommended",
-    "plugin:react-hooks/recommended",
-    "prettier",
-    "next/core-web-vitals"
+      "airbnb",
+      "prettier",
+      "plugin:prettier/recommended",
+      "plugin:@typescript-eslint/recommended",
+      "plugin:react-hooks/recommended",
+      "plugin:chai-friendly/recommended",
+      "eslint:recommended",
+      "plugin:import/recommended",
+      "plugin:import/typescript",
+      "plugin:react/recommended"
   ],
   "rules": {
-    "prettier/prettier": "error"
+      "no-mixed-spaces-and-tabs": ["error", "smart-tabs"],
+      "no-tabs": [
+        "warn",
+        {
+          "allowIndentationTabs": true
+        }
+      ],
+      "no-unused-vars": 0,
+      "@typescript-eslint/no-unused-vars": ["error", {
+          "argsIgnorePattern": "res|next|^err|on|config|^_",
+          "varsIgnorePattern": "^_",
+          "ignoreRestSiblings": true
+      }],
+      "@typescript-eslint/consistent-type-definitions": [
+        "error",
+        "type"
+      ],
+      "@typescript-eslint/no-explicit-any": "warn",
+      "default-param-last": 0,
+      "no-debugger": 0,
+      "no-else-return": 0,
+      "no-alert": 0,
+      "no-await-in-loop": 0,
+      "no-return-assign": [
+          "error",
+          "except-parens"
+      ],
+      "no-restricted-syntax": [
+          2,
+          "ForInStatement",
+          "LabeledStatement",
+          "WithStatement"
+      ],
+      "prefer-const": [
+          "error",
+          {
+              "destructuring": "all"
+          }
+      ],
+      "arrow-body-style": [
+          2,
+          "as-needed"
+      ],
+      "no-unused-expressions": [
+          2,
+          {
+              "allowTaggedTemplates": true
+          }
+      ],
+      "no-param-reassign": [
+          2,
+          {
+              "props": false
+          }
+      ],
+      "no-console": 0,
+      "import/prefer-default-export": 0,
+      "import": 0,
+      "func-names": 0,
+      "space-before-function-paren": 0,
+      "comma-dangle": 0,
+      "max-len": 0,
+      "import/extensions": 0,
+      "no-underscore-dangle": 0,
+      "consistent-return": 0,
+      "no-use-before-define": 0,
+      "react/function-component-definition": [1, { "namedComponents": "arrow-function", "unnamedComponents": "arrow-function" }],
+      "react/display-name": 0,
+      "react/no-array-index-key": 0,
+      "react/no-danger": 0,
+      "react/react-in-jsx-scope": 0,
+      "react/prefer-stateless-function": 0,
+      "react/forbid-prop-types": 0,
+      "react/no-unescaped-entities": 0,
+      "jsx-a11y/accessible-emoji": 0,
+      "react/require-default-props": 0,
+      "react/jsx-props-no-spreading": 0,
+      "react/jsx-no-target-blank": 0,
+      "react/jsx-filename-extension": [
+          1,
+          {
+              "extensions": [
+                  ".js",
+                  ".jsx",
+                  ".tsx"
+              ]
+          }
+      ],
+      "react/prop-types": 0,
+      "no-shadow": "off",
+      "@typescript-eslint/no-shadow": ["error"],
+      "quotes": [
+          2,
+          "single",
+          {
+              "avoidEscape": true
+          }
+      ],
+      "prettier/prettier": [
+          "error",
+          {
+              "singleQuote": true,
+              "printWidth": 100,
+              "trailingComma": "es5",
+              "arrowParens": "avoid"
+          }
+      ],
+      "jsx-a11y/href-no-hash": "off",
+      "jsx-a11y/anchor-is-valid": [
+          "warn",
+          {
+              "aspects": [
+                  "invalidHref"
+              ]
+          }
+      ],
+      "jsx-a11y/click-events-have-key-events": "off",
+      "jsx-a11y/no-noninteractive-element-interactions": "off",
+      "jsx-a11y/no-static-element-interactions": "off",
+      "newline-per-chained-call": "off",
+      "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
+      "react/button-has-type": ["error", { "reset": true }],
+      "no-prototype-builtins": "off",
+      "import/no-relative-packages": "off",
+      "radix": "off",
+      "jsx-a11y/label-has-associated-control": [ "error", {
+        "required": {
+          "some": [ "nesting", "id" ]
+        }
+      }]
   },
-  "settings": {
-    "react": {
-      "version": "detect"
-    }
-  }
+  "plugins": [
+      "prettier",
+      "chai-friendly",
+      "react",
+      "@typescript-eslint",
+      "import"
+  ]
 }
