@@ -6,20 +6,20 @@ const useAccount = () => {
   const [account, setAccount] = useState<string | null>(null);
 
   useEffect(() => {
-      const initializeWeb3 = async () => {
-          await initWeb3();
-          setInitialized(true);
-      };
-      initializeWeb3();
-  }, []); 
+    const initializeWeb3 = async () => {
+      await initWeb3();
+      setInitialized(true);
+    };
+    initializeWeb3();
+  }, []);
 
   useEffect(() => {
     const retrieveAccount = async () => {
       try {
-        const account = await getCurrentAccount();
-        setAccount(account);
+        const currentAccount = await getCurrentAccount();
+        setAccount(currentAccount);
       } catch (error) {
-        console.error("Error fetching account:", error);
+        console.error('Error fetching account:', error);
       }
     };
     retrieveAccount();

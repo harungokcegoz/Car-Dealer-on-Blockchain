@@ -1,11 +1,9 @@
-import CarRegistrationForm from "@/components/forms/CarRegistrationForm";
+import CarRegistrationForm from '../../components/forms/CarRegistrationForm';
 
-const CarRegistrationPage = () => {
-    return (
-        <div>
-            <CarRegistrationForm />
-        </div>
-    );
-}
+const CarRegistrationPage = () => (
+  <div>
+    <CarRegistrationForm />
+  </div>
+);
 
 export default CarRegistrationPage;
