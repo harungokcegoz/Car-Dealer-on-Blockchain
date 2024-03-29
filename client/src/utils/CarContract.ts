@@ -59,5 +59,20 @@ export const requestPurchaseFromContract = async (carId: number, askingPriceInEt
     }
 }
 
+export const confirmPurchaseFromContract = async (carId: number, currentEtherPrice: number) => {
+    try {
+        if (!currentEtherPrice) {
+            return;
+        }
+        initWeb3();
+        await contract.methods.confirmPurchase(carId, currentEtherPrice.toFixed(0)).send({
+            from: await getCurrentAccount()
+        });
+    } catch (error) {
+        console.error("Error depositing money:", error);
+        throw error;
+    }
+}
+
 
 export default contract;

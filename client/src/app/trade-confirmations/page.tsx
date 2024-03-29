@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from 'react';
-import { callContractMethod } from '../../utils/CarContract';
+import { confirmPurchaseFromContract } from '../../utils/CarContract';
 import Button from '../../components/atoms/Button';
 import useFetchCars from '../../hooks/useFetchCars';
 import LoadingComponent from '@/components/atoms/Loading';
@@ -18,14 +18,13 @@ const TradeConfirmationsPage = () => {
     }, [cars]);
 
     const confirmPurchase = async (carId: number) => {
-        console.log("Confirming purchase for car with ID:", carId, "and price:", currentEtherPrice)
         try {
-            await callContractMethod('confirmPurchase', BigInt(carId), BigInt(currentEtherPrice));
+            await confirmPurchaseFromContract(carId, currentEtherPrice);
             alert('Purchase confirmed successfully');
         } catch (error) {
             console.error("Error confirming purchase:", error);
         }
-        // window.location.href = '/';
+        window.location.reload();
     };
 
     return (

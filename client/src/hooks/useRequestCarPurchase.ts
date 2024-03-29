@@ -11,7 +11,7 @@ const useRequestCarPurchase = () => {
         setBuyingInProgress(true);
     
         const askingPriceInEther = askingPrice / currentEtherPrice;
-        console.log("askingPriceInEther", askingPriceInEther.toFixed(0));
+        
         try {
             await requestPurchaseFromContract(carId, askingPriceInEther, currentEtherPrice);
             alert('Purchase request sent successfully');
