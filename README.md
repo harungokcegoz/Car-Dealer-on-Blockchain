@@ -10,6 +10,8 @@ In order to prevent fraud and protect all market stakeholders' rights, a decentr
 
 In this Proof of Concept (PoC), there are three key stakeholders: the Seller, Potential Buyer, and Dealer (Approver), and the application provides 3 different UI and UX for each type of user. All users are required to log in to the system using their MetaMask crypto asset wallets for authentication.
 
+### The Sequence Diagram of the app
+
 <img width="753" alt="Screenshot 2024-04-08 at 04 12 32" src="https://github.com/harungokcegoz/Car-Dealer-on-Blockchain/assets/94520965/08bcd048-9b72-4624-9d21-bc0ec9b068da">
 
 ### Seller
